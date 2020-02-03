@@ -1,0 +1,36 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+
+  <h2>Here are some links to help you start: </h2>
+
+  <form [formGroup]='form' (submit)="sendMessage()">
+    <label>
+      Name:
+      <input type="text" formControlName="name">
+      <span class="text-danger" *ngIf="check(form, 'name', 'required')">
+        Name is required
+      </span>
+    </label>
+
+    <label>
+      Message:
+      <input type="text" formControlName="message">
+      <span class="text-danger" *ngIf="check(form, 'message', 'minlength')">
+         must be at least 6 characters long
+      </span>
+    </label>
+
+    <button type="submit">Send</button>
+  </form>
+
+  <div>
+    <div *ngFor="let post of posts">
+      <div>{{post.name}}</div>
+      <div>{{post.message}}</div>
+    </div>
+  </div>
+
+  <router-outlet></router-outlet>
