@@ -5,14 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './feature/authentication/components/login/login.component';
-import { RegisterComponent } from './feature/authentication/components/register/register.component';
+
+import { MenuComponent } from './feature/menu/view/menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegisterComponent
+    MenuComponent
   ],
   imports: [
     BrowserModule,
