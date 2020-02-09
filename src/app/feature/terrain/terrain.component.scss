@@ -1,0 +1,33 @@
+@import '../../../styles/color.scss';
+
+.terrain {
+  background-image: url('src/assets/img/bg/terrain.png');
+  border-radius: 5px;
+  padding: 20px;
+
+  .terrain-col {
+    width: 68px;
+    height: 68px;
+    color: $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .vertical-line {
+    border-left: 4px solid;
+    border-right: 4px solid;
+  }
+
+  .horizontal-cell {
+    transform: rotate(90deg);
+  }
+
+  .small-border-left {
+    border-left: 2px solid;
+  }
+
+  .small-border-right {
+    border-right: 2px solid;
+  }
+}

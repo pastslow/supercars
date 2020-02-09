@@ -1,0 +1,9 @@
+<div class="terrain" id="terrain" #terrain>
+  <div *ngFor="let row of terrainSize; index as i" class="terrain-row d-flex">
+    <div id="x{{i}}y{{j}}" #cell appUpdateLineSize [class.vertical-line]="updateParkingPlacements(i, j)"
+      *ngFor="let col of terrainSize; index as j" class="terrain-col" [parkingPlacements]="parkingPlacements"
+      [terrain]="terrain" [rowNumber]="i" [colNumber]="j">
+      {{j}}
+    </div>
+  </div>
+</div>
