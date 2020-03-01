@@ -1,33 +1,216 @@
 @import '../../../styles/color.scss';
+@import '../../../styles/custom-control.scss';
 
 .terrain {
-  background-image: url('src/assets/img/bg/terrain.png');
-  border-radius: 5px;
-  padding: 20px;
+    background-image: url($terrain);
+    padding: 28px;
+    overflow: hidden;
 
-  .terrain-col {
-    width: 68px;
-    height: 68px;
-    color: $white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    .terrain-col {
+        width: $terrain-size;
+        height: $terrain-size;
+        color: $white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
 
-  .vertical-line {
-    border-left: 4px solid;
-    border-right: 4px solid;
-  }
+    .vertical-line {
+        .cell {
+            padding: 36px 17px;
+            border-left: $border-size solid;
+            border-right: $border-size solid;
+            cursor: pointer;
+            position: relative;
 
-  .horizontal-cell {
-    transform: rotate(90deg);
-  }
+            &:hover {
+                background: radial-gradient(rgb(194, 194, 194), #c3b9b900);
+                font-weight: bold;
+                color: white;
 
-  .small-border-left {
-    border-left: 2px solid;
-  }
+                .active-cell {
+                    opacity: 0.6;
+                }
+            }
+        }
+    }
 
-  .small-border-right {
-    border-right: 2px solid;
-  }
+    .active-cell {
+        height: 100%;
+        width: 100%;
+        background: url($car);
+        position: absolute;
+        background-size: cover;
+        background-repeat: no-repeat;
+        max-height: 60px;
+        max-width: 26px;
+
+        top: 4px;
+        left: 0;
+    }
+
+    .vertical-cell {
+        .cell {
+            padding: 36px 17px;
+        }
+
+        .border-bottom {
+            .cell-indicator {
+                bottom: 64px;
+            }
+
+            .active-cell {
+                top: 8px;
+                left: 5px;
+                transform: rotate(180deg);
+            }
+        }
+
+        .border-top {
+            .cell-indicator {
+                top: 64px;
+            }
+
+            .active-cell {
+                left: 3px;
+                transform: rotate(0deg);
+            }
+        }
+    }
+
+    .horizontal-cell {
+        transform: rotate(90deg);
+
+        .cell {
+            padding: 36px 17px;
+
+            .cell-indicator {
+                transform: rotate(-90deg);
+            }
+        }
+
+        .border-bottom {
+            .cell-indicator {
+                bottom: 64px;
+            }
+
+            .active-cell {
+                top: 8px;
+                left: 5px;
+                transform: rotate(180deg);
+            }
+        }
+
+        .border-top {
+            .cell-indicator {
+                top: 64px;
+            }
+
+            .active-cell {
+                left: 3px;
+                transform: rotate(0deg);
+            }
+        }
+    }
+
+    .clockwise-cell {
+        transform: rotate(27deg);
+
+        .cell {
+            padding: 40px 15px;
+
+            .active-cell {
+                transform: rotate(180deg);
+                left: 3px;
+            }
+
+            .cell-indicator {
+                transform: rotate(-27deg);
+            }
+        }
+
+        .border-bottom {
+            .active-cell {
+                top: 16px;
+            }
+
+            .cell-indicator {
+                top: -10px;
+            }
+        }
+
+        .border-top {
+            .cell-indicator {
+                bottom: -10px;
+            }
+        }
+    }
+
+    .counterclockwise-cell {
+        transform: rotate(-27deg);
+
+        .cell {
+            padding: 40px 15px;
+
+            .active-cell {
+                transform: rotate(0);
+                left: 1px;
+            }
+
+            .cell-indicator {
+                transform: rotate(27deg);
+            }
+        }
+
+        .border-bottom {
+            .active-cell {
+                top: 16px;
+            }
+
+            .cell-indicator {
+                top: -10px;
+            }
+        }
+
+        .border-top {
+            .cell-indicator {
+                bottom: -10px;
+            }
+        }
+    }
+
+    .border-top {
+        border-top: 2px solid $white !important;
+    }
+
+    .border-bottom {
+        border-bottom: 2px solid $white !important;
+    }
+
+    .cell-indicator {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        text-align: center;
+    }
+
+    .hidden-cell {
+        opacity: 0;
+    }
+
+    .block-cell {
+        background-image: url(src/assets/img/bg/cell-block.png);
+        background-size: contain;
+        border: 2px solid;
+
+        .cell {
+            border: 0;
+
+            &:hover {
+                background: none;
+                border-color: transparent;
+            }
+        }
+    }
 }

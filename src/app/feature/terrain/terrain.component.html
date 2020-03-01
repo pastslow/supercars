@@ -1,9 +1,23 @@
+<h2>{{parkingArea.name}}</h2>
+
 <div class="terrain" id="terrain" #terrain>
-  <div *ngFor="let row of terrainSize; index as i" class="terrain-row d-flex">
-    <div id="x{{i}}y{{j}}" #cell appUpdateLineSize [class.vertical-line]="updateParkingPlacements(i, j)"
-      *ngFor="let col of terrainSize; index as j" class="terrain-col" [parkingPlacements]="parkingPlacements"
-      [terrain]="terrain" [rowNumber]="i" [colNumber]="j">
-      {{j}}
+  <div *ngFor="let row of terrainSizeRow; index as i" class="terrain-row d-flex">
+    <div id="y{{i}}x{{j}}" #cell appUpdateLineSize [class.vertical-line]="updateParkingPlacements(i, j)"
+      *ngFor="let col of terrainSizeCol; index as j" class="terrain-col" [parkingPlacements]="parkingPlacements"
+      [terrain]="terrain" [rowNumber]="i" [colNumber]="j" [class.block-cell]="updateCell(i, j)">
+
+      <div class="cell" (click)="getSelectedSpot(i, j)" data-toggle="modal" data-target="#selectedSpot">
+        <div class="cell-indicator">
+          <span>{{getCellData(i, j, 'indicator')}}</span>
+        </div>
+
+        <div [class.active-cell]="getCellData(i, j, 'active')"></div>
+      </div>
     </div>
   </div>
 </div>
+
+<app-selected-spot-modal [selectedSpot]="selectedSpot"></app-selected-spot-modal>
+
+<button (click)="changeModelNumber('substract')" class="btn btn-info">Previous Area</button>
+<button (click)="changeModelNumber('add')" class="btn btn-primary">Next Area</button>

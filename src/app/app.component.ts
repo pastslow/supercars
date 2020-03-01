@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PostsService } from './shared/services/posts.service';
-import { Posts } from './shared/interfaces/posts.interface';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -57,8 +56,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.postsService.getCars().subscribe((data) => {
-
-      debugger
     });
   }
 
