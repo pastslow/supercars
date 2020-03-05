@@ -3,9 +3,9 @@
 
 .modal-content {
     // background-image: url($terrain);
-    background: #5d009b;
+    // background: #5d009b;
 
-    color: $white;
+    color: black;
 
     .modal-header {
         position: relative;
@@ -19,20 +19,27 @@
 }
 
 .form-group {
-
   .form-label {
     margin-bottom: 0;
     font-size: 14px;
   }
 
+  .form-small-input {
+    max-width: 100px;
+    margin-left: 10px;
+  }
+
   .form-input {
     height: 25px;
     font-size: 18px;
-    padding: 0;
-    background: transparent;
-    color: $white;
-    border: none;
+    padding: 0 10px;
+    border: 1px solid;
     cursor: initial;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
 
     &:focus {
       box-shadow: none;
@@ -40,9 +47,12 @@
   }
 
   .edit-form-input {
-    background: $white;
-    color: Black;
     padding: 0 10px;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -66,8 +76,8 @@
 
             .cell {
                 padding: 40px 18px;
-                border-left: $border-size solid $white;
-                border-right: $border-size solid $white;
+                border-left: $border-size solid black;
+                border-right: $border-size solid black;
                 position: relative;
                 cursor: pointer;
 

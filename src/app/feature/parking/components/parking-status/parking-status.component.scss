@@ -1,0 +1,38 @@
+@import '../../../../../styles/color.scss';
+
+.parking-status {
+  background-color: $white;
+
+    .menu-title {
+        font-weight: bold;
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+
+    .status-container {
+      .cell-container {
+        padding: 0 5px;
+        margin-top: 10px;
+        background-color: rgb(246, 249, 255);
+
+        .text-cell {
+          font-weight: bold;
+        }
+
+        .subtitle {
+          color: #838383;
+          font-size: 12px;
+        }
+      }
+
+      .slots-data-container {
+        .cell-container {
+          margin-right: 10px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+}

@@ -1,0 +1,18 @@
+<div class="parking">
+  <div *ngIf="!displayParkingZone">
+    <app-parking-items (getSelectedParking)="getSelectedParking($event)" [adminParkings]="adminParkings"></app-parking-items>
+  </div>
+
+  <div *ngIf="displayParkingZone">
+    <div class="row">
+      <div class="col-sm-12 col-md-4 col-lg-3">
+        <app-parking-status class="w-100"></app-parking-status>
+        <app-parking-floors class="w-100"></app-parking-floors>
+      </div>
+
+      <div class="col-sm-12 col-md-8 col-lg-9">
+        <app-terrain [parking]="selectedParking"></app-terrain>
+      </div>
+    </div>
+  </div>
+</div>

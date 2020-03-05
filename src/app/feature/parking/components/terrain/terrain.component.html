@@ -1,4 +1,4 @@
-<h2>{{parkingArea.name}}</h2>
+<app-parking-status-header [parking]="parking"></app-parking-status-header>
 
 <div class="terrain" id="terrain" #terrain>
   <div *ngFor="let row of terrainSizeRow; index as i" class="terrain-row d-flex">

@@ -1,12 +1,23 @@
-@import '../../../styles/color.scss';
-@import '../../../styles/custom-control.scss';
+@import '../../../../../styles/color.scss';
+@import '../../../../../styles/custom-control.scss';
 
 .terrain {
     background-image: url($terrain);
     padding: 28px;
-    overflow: hidden;
+    overflow: auto;
+    margin-left: auto;
+    margin-right: auto;
+
+    .terrain-row {
+        width: 100%;
+
+        @media only screen and (min-width:900px) {
+          justify-content: center;
+        }
+    }
 
     .terrain-col {
+      min-width: $terrain-size;
         width: $terrain-size;
         height: $terrain-size;
         color: $white;
@@ -200,7 +211,7 @@
     }
 
     .block-cell {
-        background-image: url(src/assets/img/bg/cell-block.png);
+        background-image: url(/assets/img/bg/cell-block.png);
         background-size: contain;
         border: 2px solid;
 

@@ -6,14 +6,13 @@ import { ParkingData } from '../interfaces/parking-data.interface';
 
 import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
 
 @Injectable()
 export class ParkingLogicService {
 
   public parkingData: ParkingData = {
-    selectedArea: 3,
-    selectedFloor: 'parter'
+    selectedArea: 0,
+    selectedFloor: 'Parter'
   }
 
   constructor(private http: HttpClient) { }
@@ -23,11 +22,23 @@ export class ParkingLogicService {
     return selectedCell;
   }
 
-  public getSelectedParking(userId: any) {
-    return of(this.http.get(`http://localhost:3000/api/parking/${userId}`));
+  public getAdminParkings(userId: number) {
+    return this.http.get(`http://localhost:3000/api/parking/${userId}`);
   }
 
-  public getSelectedParkingArea(parkingId: any) {
-    return this.http.get(`http://localhost:3000/api/parking/${parkingId}`)
+  public getSelectedParkingEntries(parkingId: number) {
+    return this.http.get(`http://localhost:3000/api/parking/entries/${parkingId}`)
+  }
+
+  public getSelectedParkingAreas(parkingEntryId: number) {
+    return this.http.get(`http://localhost:3000/api/parking/area/${parkingEntryId}`)
+  }
+
+  public getAreaParkingSlots(parkingAreaId: number) {
+    return this.http.get(`http://localhost:3000/api/parking/spots/${parkingAreaId}`)
+  }
+
+  public changeSlotStatus(slotId: number, active: number) {
+    return this.http.get(`http://localhost:3000/api/parking/spot/${slotId}/${active}`)
   }
 }

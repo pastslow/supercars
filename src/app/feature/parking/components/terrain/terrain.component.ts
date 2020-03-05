@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import * as _ from 'lodash';
 
-import { Spot } from 'src/app/shared/interfaces/spot.interface';
-import { SharedConstants } from 'src/app/shared/constants/shared-constants';
+import { Spot } from '@app/shared/interfaces/spot.interface';
+import { SharedConstants } from '@app/shared/constants/shared-constants';
 
-import { ParkingLogicService } from 'src/app/shared/services/parking-logic.service';
-import { ParkingSpot } from 'src/app/shared/interfaces/parking-spot.interface';
-import { ParkingData } from 'src/app/shared/interfaces/parking-data.interface';
+import { ParkingLogicService } from '@app/shared/services/parking-logic.service';
+import { ParkingSpot } from '@app/shared/interfaces/parking-spot.interface';
+import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
 
 @Component({
   selector: 'app-terrain',
@@ -24,16 +24,16 @@ export class TerrainComponent implements OnInit {
   public parkingArea: ParkingSpot;
   public parkingPlacements: Spot[];
 
+  @Input() public parking;
+
   constructor(private parkingLogicService: ParkingLogicService) { }
 
   ngOnInit() {
     this.parkingData = this.parkingLogicService.parkingData;
 
-    this.terrainSizeRow = new Array(SharedConstants.parkingModels[this.parkingData.selectedFloor][this.parkingData.selectedArea].sizeRow);
-    this.terrainSizeCol = new Array(SharedConstants.parkingModels[this.parkingData.selectedFloor][this.parkingData.selectedArea].sizeCol);
-
-    this.parkingArea = SharedConstants.parkingModels[this.parkingData.selectedFloor][this.parkingData.selectedArea];
-    this.parkingPlacements = this.parkingArea.spots;
+    if(this.parking) {
+      this.getSelectedArea(this.parking);
+    }
   }
 
   public updateParkingPlacements(coordinateY: number, coordinateX: number): Spot {
@@ -43,6 +43,17 @@ export class TerrainComponent implements OnInit {
     };
 
     return this.parkingLogicService.updateParkingPlacements(coordinate, this.parkingPlacements);
+  }
+
+  public saveToSql(parkingPlacements) {
+    let id = 5;
+    let sql;
+    for (const spot of parkingPlacements) {
+      sql += `INSERT INTO \`parking_spots\`(\`id\`, \`spot_y\`, \`spot_x\`, \`orientation\`, \`line_position\`, \`active\`, \`indicator\`, \`parking_area_id\`) VALUES(\'${id}\', \'${spot.y}\', \'${spot.x}\', \'${spot.orientation}\', \'${spot.border}\', \'${spot.active ? 1 : 0}\', \'${spot.indicator}\', \'1\');`
+      id++
+    }
+    // console.log(sql);
+
   }
 
   public changeModelNumber(operation: string): void {
@@ -84,5 +95,13 @@ export class TerrainComponent implements OnInit {
 
   public getSelectedSpot(coordinateY: number, coordinateX: number): void {
     this.selectedSpot = _.find(this.parkingPlacements, spot => spot.x === coordinateX && spot.y === coordinateY);
+  }
+
+  public getSelectedArea(parking): void {
+    const parkingFloor = parking.levels.find(floor => floor.name === this.parkingData.selectedFloor)
+    const parkingArea = parkingFloor.areas.find(area => area.name === 'Area 1');
+    this.terrainSizeRow = new Array(parkingArea.size_y);
+    this.terrainSizeCol = new Array(parkingArea.size_x);
+    this.parkingPlacements = parkingArea.spots;
   }
 }

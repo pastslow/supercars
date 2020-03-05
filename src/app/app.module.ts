@@ -6,15 +6,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MenuComponent } from './feature/menu/view/menu.component';
-import { TerrainComponent } from './feature/terrain/terrain.component';
 import { SharedModule } from './shared/shared.module';
+import { HeaderComponent } from './feature/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
-    TerrainComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,7 +20,7 @@ import { SharedModule } from './shared/shared.module';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
