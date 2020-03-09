@@ -12,5 +12,4 @@ export class ParkingStatusHeaderComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

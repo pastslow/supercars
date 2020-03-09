@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ParkingComponent } from './view/parking.component';
+import { ParkingComponent } from '@app/feature/parking/view/parking.component';
 
 const routes: Routes = [
   {

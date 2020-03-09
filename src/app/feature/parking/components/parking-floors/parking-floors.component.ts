@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
+
+import { ParkingService } from '@app/shared/services/parking.service';
 
 @Component({
   selector: 'app-parking-floors',
@@ -6,10 +10,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./parking-floors.component.scss']
 })
 export class ParkingFloorsComponent implements OnInit {
+  public parkingData: ParkingData;
 
-  constructor() { }
+  @Input() public parking;
+
+  constructor(private parkingService: ParkingService) { }
 
   ngOnInit(): void {
+    this.parkingData = this.parkingService.parkingData;
   }
-
 }

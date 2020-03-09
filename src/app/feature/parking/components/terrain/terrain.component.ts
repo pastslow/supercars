@@ -2,12 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import * as _ from 'lodash';
 
-import { Spot } from '@app/shared/interfaces/spot.interface';
-import { SharedConstants } from '@app/shared/constants/shared-constants';
-
-import { ParkingLogicService } from '@app/shared/services/parking-logic.service';
-import { ParkingSpot } from '@app/shared/interfaces/parking-spot.interface';
 import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
+import { ParkingSpot } from '@app/shared/interfaces/parking-spot.interface';
+import { Spot } from '@app/shared/interfaces/spot.interface';
+
+import { ParkingService } from '@app/shared/services/parking.service';
 
 @Component({
   selector: 'app-terrain',
@@ -26,12 +25,12 @@ export class TerrainComponent implements OnInit {
 
   @Input() public parking;
 
-  constructor(private parkingLogicService: ParkingLogicService) { }
+  constructor(private parkingService: ParkingService) { }
 
   ngOnInit() {
-    this.parkingData = this.parkingLogicService.parkingData;
+    this.parkingData = this.parkingService.parkingData;
 
-    if(this.parking) {
+    if (this.parking) {
       this.getSelectedArea(this.parking);
     }
   }
@@ -42,38 +41,7 @@ export class TerrainComponent implements OnInit {
       y: coordinateY
     };
 
-    return this.parkingLogicService.updateParkingPlacements(coordinate, this.parkingPlacements);
-  }
-
-  public saveToSql(parkingPlacements) {
-    let id = 5;
-    let sql;
-    for (const spot of parkingPlacements) {
-      sql += `INSERT INTO \`parking_spots\`(\`id\`, \`spot_y\`, \`spot_x\`, \`orientation\`, \`line_position\`, \`active\`, \`indicator\`, \`parking_area_id\`) VALUES(\'${id}\', \'${spot.y}\', \'${spot.x}\', \'${spot.orientation}\', \'${spot.border}\', \'${spot.active ? 1 : 0}\', \'${spot.indicator}\', \'1\');`
-      id++
-    }
-    // console.log(sql);
-
-  }
-
-  public changeModelNumber(operation: string): void {
-    const numberOfModels = SharedConstants.parkingModels[this.parkingData.selectedFloor].length - 1;
-
-    if (operation === 'add' && this.parkingData.selectedArea < numberOfModels) {
-      this.parkingData.selectedArea++;
-    } else if (operation === 'substract' && this.parkingData.selectedArea > 0) {
-      this.parkingData.selectedArea--;
-    }
-
-    this.terrainSizeRow = new Array(0);
-    this.terrainSizeCol = new Array(0);
-
-    setTimeout(() => {
-      this.parkingArea = SharedConstants.parkingModels[this.parkingData.selectedFloor][this.parkingData.selectedArea];
-      this.parkingPlacements = this.parkingArea.spots;
-      this.terrainSizeRow = new Array(this.parkingArea.sizeRow);
-      this.terrainSizeCol = new Array(this.parkingArea.sizeCol);
-    }, 0);
+    return this.parkingService.updateParkingPlacements(coordinate, this.parkingPlacements);
   }
 
   public updateCell(coordinateY: number, coordinateX: number): boolean {

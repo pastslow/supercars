@@ -1,24 +1,29 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ParkingLogicService } from './services/parking-logic.service';
-import { UpdateLineSizeDirective } from './directive/update-line-size.directive';
-import { SelectedSpotModalComponent } from './components/selected-spot-modal/selected-spot-modal.component';
+import { SelectedSpotModalComponent } from '@app/shared/components/selected-spot-modal/selected-spot-modal.component';
+import { SpinnerModalComponent } from './components/spinner-modal/spinner-modal.component';
+
+import { UpdateLineSizeDirective } from '@app/shared/directive/update-line-size.directive';
+
+import { ParkingService } from '@app/shared/services/parking.service';
 
 @NgModule({
   declarations: [
     UpdateLineSizeDirective,
-    SelectedSpotModalComponent
+    SelectedSpotModalComponent,
+    SpinnerModalComponent
   ],
   imports: [
     CommonModule,
   ],
   exports: [
     UpdateLineSizeDirective,
-    SelectedSpotModalComponent
+    SelectedSpotModalComponent,
+    SpinnerModalComponent
   ],
   providers: [
-    ParkingLogicService
+    ParkingService,
   ]
 })
 export class SharedModule { }

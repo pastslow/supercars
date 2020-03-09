@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PostsService } from './shared/services/posts.service';
 
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { SpinnerService } from '@app/shared/services/spinner-service';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +9,15 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   title = 'nodeJsProject';
+  public isSpinnerDisplayed: boolean;
 
-  constructor() { }
+  constructor(private spinnerService: SpinnerService) { }
 
   ngOnInit() {
+    this.spinnerService.isSpinnerDisplayed.subscribe((res) => {
+      debugger
+      this.isSpinnerDisplayed = res;
+    })
   }
-
 }
 

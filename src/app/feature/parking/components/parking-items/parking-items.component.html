@@ -1,61 +1,68 @@
-<div class="parking-items container">
+<div class="parking-items">
 
   <div class="row">
-    <div *ngFor="let parking of adminParkings?.parking" class="col-lg-3 col-md-4 col-sm-6 card-container">
-      <div class="menu-title">
-        {{parking.name}}
-      </div>
+    <div *ngFor="let parking of parkings?.parking" class="col-lg-3 col-md-4 col-sm-6">
+      <div class="card-container">
 
-      <div class="image-container">
-        <img class="parking-image" src="assets/img/bg/parking_lot.png" alt="">
-      </div>
-
-
-      <div class="status-container">
-
-        <div class="cell-container">
-          <div class="subtitle">Total Levels</div>
-          <div class="text-cell">{{parking.total_levels}}</div>
-        </div>
-
-        <div class="d-flex justify-content-between slots-data-container">
-          <div class="cell-container">
-            <div class="subtitle">Total spots</div>
-            <div class="text-cell">{{parking.total_spots}}</div>
+        <div class="card-title">
+          <div class="main-title">
+            {{parking.name}}
           </div>
 
+          <div class="subtitle">
+            {{parking.address}}
+          </div>
+        </div>
+
+        <div class="image-container">
+          <img class="parking-image" src="assets/img/bg/parking_lot.png" alt="">
+        </div>
+
+        <div class="status-container">
           <div class="cell-container">
-            <div class="subtitle">Free spots</div>
-            <div class="text-cell">{{parking.free_spots}}</div>
+            <div class="subtitle">Total Levels</div>
+            <div class="text-cell">{{parking.total_levels}}</div>
           </div>
 
-          <div class="cell-container">
-            <div class="subtitle">Used spots</div>
-            <div class="text-cell">{{parking.used_spots}}</div>
+          <div class="d-flex flex-wrap justify-content-between slots-data-container">
+            <div class="cell-container">
+              <div class="subtitle">Total spots</div>
+              <div class="text-cell">{{parking.total_spots}}</div>
+            </div>
+
+            <div class="cell-container">
+              <div class="subtitle">Free spots</div>
+              <div class="text-cell">{{parking.free_spots}}</div>
+            </div>
+
+            <div class="cell-container">
+              <div class="subtitle">Used spots</div>
+              <div class="text-cell">{{parking.used_spots}}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 d-flex">
+            <div (click)="editSelectedParking(parking)" class="col-5 main-button">Edit</div>
+            <div class="col-5 main-button">Delete</div>
           </div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-12 d-flex">
-          <div (click)="editSelectedParking(parking)" class="col-5 floor-level">Edit</div>
-          <div class="col-5 floor-level">Delete</div>
-        </div>
-      </div>
-
     </div>
 
-    <div class="col-lg-3 col-md-4 col-sm-6 card-container">
-      <div class="image-container">
-        <img class="parking-image" src="assets/img/bg/empty.png" alt="">
-      </div>
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <div class="card-container d-flex flex-wrap align-items-center">
+        <div>
+          <span *ngIf="!parkings?.parking?.length">Here you will find all your parkings. You have not yet added a
+            parking.
+            You can add a parking by pressing on the create a parking button.</span>
+          <span *ngIf="parkings?.parking?.length">You can add a parking by pressing on the create a parking
+            button.</span>
+        </div>
 
-      <div>
-        Here you will find all your parkings. You have not yet added a parking. You can add a parking by pressing on the
-        create a parking button.
+        <div class="main-button w-100">Create parking</div>
       </div>
-
-      <div class="floor-level">Create parking</div>
     </div>
   </div>
 </div>

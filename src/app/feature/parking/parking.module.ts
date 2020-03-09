@@ -6,9 +6,10 @@ import { ParkingStatusComponent } from '@app/feature/parking/components/parking-
 import { ParkingStatusHeaderComponent } from '@app/feature/parking/components/parking-status-header/parking-status-header.component';
 import { TerrainComponent } from '@app/feature/parking/components/terrain/terrain.component';
 import { ParkingComponent } from '@app/feature/parking/view/parking.component';
+import { ParkingItemsComponent } from '@app/feature/parking/components/parking-items/parking-items.component';
+
 import { SharedModule } from '@app/shared/shared.module';
 import { ParkingRoutingModule } from './parking-routing.module';
-import { ParkingItemsComponent } from '@app/feature/parking/components/parking-items/parking-items.component';
 
 @NgModule({
   declarations: [

@@ -1,43 +1,32 @@
+@import 'styles/colors.scss';
+
 .header {
-  display: flex;
+    display: flex;
     padding: 10px;
     margin-bottom: 10px;
-    background: white;
+    background: $white;
     border-radius: 5px;
     justify-content: space-between;
 
     .parking-image {
-      width: 50px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin-right: 10px;
-    }
-
-    .menu-title {
-      font-weight: bold;
-      font-size: 15px;
-      max-width: 200px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .subtitle {
-      color: #838383;
-      font-size: 12px;
-      max-width: 200px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .parking-info-container {
-      .cell-container {
+        width: 50px;
+        border-radius: 50%;
+        overflow: hidden;
         margin-right: 10px;
+    }
 
-        &:last-child {
-          margin-right: 0;
+    .main-title {
+        margin-bottom: 0;
+    }
+
+    .status-container {
+        display: flex;
+        align-items: center;
+
+        .slots-data-container {
+            .cell-container {
+                margin-top: 0;
+            }
         }
-      }
     }
 }

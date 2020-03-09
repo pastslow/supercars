@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+import { ParkingService } from '@app/shared/services/parking.service';
 
 @Component({
   selector: 'app-parking-status',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./parking-status.component.scss']
 })
 export class ParkingStatusComponent implements OnInit {
+  public parkingData;
 
-  constructor() { }
+  @Input() public parking;
+
+  constructor(private parkingService: ParkingService) { }
 
   ngOnInit(): void {
+    this.parkingData = this.parkingService.parkingData;
   }
-
 }

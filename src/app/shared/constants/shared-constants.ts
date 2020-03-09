@@ -1,5 +1,4 @@
 export class SharedConstants {
-
   static parkingModels = {
     parter: [
       {
@@ -1908,8 +1907,4 @@ export class SharedConstants {
       }
     ]
   }
-
 }
-
-
-

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-
-import { Spot } from '../interfaces/spot.interface';
-import { Coordinate } from '../interfaces/coordinate.interface';
-import { ParkingData } from '../interfaces/parking-data.interface';
-
-import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 
+import * as _ from 'lodash';
+
+import { Coordinate } from '@app/shared/interfaces/coordinate.interface';
+import { Spot } from '@app/shared/interfaces/spot.interface';
+import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
+
 @Injectable()
-export class ParkingLogicService {
+export class ParkingService {
 
   public parkingData: ParkingData = {
     selectedArea: 0,
@@ -22,7 +22,7 @@ export class ParkingLogicService {
     return selectedCell;
   }
 
-  public getAdminParkings(userId: number) {
+  public getParkings(userId: number) {
     return this.http.get(`http://localhost:3000/api/parking/${userId}`);
   }
 

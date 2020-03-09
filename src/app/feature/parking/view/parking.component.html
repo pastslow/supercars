@@ -1,13 +1,18 @@
 <div class="parking">
+  <div (click)="backToParkings()" class="d-flex align-items-center action-container" *ngIf="displayParkingZone">
+    <img class="arrow" src="assets/img/icons/arrow.png" alt="">
+    <span>Back to parkings</span>
+  </div>
+
   <div *ngIf="!displayParkingZone">
-    <app-parking-items (getSelectedParking)="getSelectedParking($event)" [adminParkings]="adminParkings"></app-parking-items>
+    <app-parking-items (getSelectedParking)="getSelectedParking($event)" [parkings]="parkings"></app-parking-items>
   </div>
 
   <div *ngIf="displayParkingZone">
-    <div class="row">
+    <div class="row parking-zone">
       <div class="col-sm-12 col-md-4 col-lg-3">
-        <app-parking-status class="w-100"></app-parking-status>
-        <app-parking-floors class="w-100"></app-parking-floors>
+        <app-parking-status [parking]="selectedParking" class="w-100"></app-parking-status>
+        <app-parking-floors [parking]="selectedParking" class="w-100"></app-parking-floors>
       </div>
 
       <div class="col-sm-12 col-md-8 col-lg-9">

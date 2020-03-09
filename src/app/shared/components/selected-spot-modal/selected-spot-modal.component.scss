@@ -1,11 +1,8 @@
-@import '../../../../styles/color.scss';
-@import '../../../../styles/custom-control.scss';
+@import 'styles/colors.scss';
+@import 'styles/custom-control.scss';
 
 .modal-content {
-    // background-image: url($terrain);
-    // background: #5d009b;
-
-    color: black;
+    color: $black;
 
     .modal-header {
         position: relative;
@@ -14,46 +11,45 @@
             text-align: center;
             margin: auto;
         }
-
     }
 }
 
 .form-group {
-  .form-label {
-    margin-bottom: 0;
-    font-size: 14px;
-  }
-
-  .form-small-input {
-    max-width: 100px;
-    margin-left: 10px;
-  }
-
-  .form-input {
-    height: 25px;
-    font-size: 18px;
-    padding: 0 10px;
-    border: 1px solid;
-    cursor: initial;
-    margin-bottom: 10px;
-
-    &:last-child {
-      margin-bottom: 0;
+    .form-label {
+        margin-bottom: 0;
+        font-size: 14px;
     }
 
-    &:focus {
-      box-shadow: none;
+    .form-small-input {
+        max-width: 100px;
+        margin-left: 10px;
     }
-  }
 
-  .edit-form-input {
-    padding: 0 10px;
-    margin-bottom: 10px;
+    .form-input {
+        height: 25px;
+        font-size: 18px;
+        padding: 0 10px;
+        border: 1px solid;
+        cursor: initial;
+        margin-bottom: 10px;
 
-    &:last-child {
-      margin-bottom: 0;
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
     }
-  }
+
+    .edit-form-input {
+        padding: 0 10px;
+        margin-bottom: 10px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }
 
 .data-container {
@@ -76,8 +72,8 @@
 
             .cell {
                 padding: 40px 18px;
-                border-left: $border-size solid black;
-                border-right: $border-size solid black;
+                border-left: $border-size solid $black;
+                border-right: $border-size solid $black;
                 position: relative;
                 cursor: pointer;
 

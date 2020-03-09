@@ -1,30 +1,20 @@
 <div class="parking-floors custom-card">
-  <div class="menu-title">
+  <div class="main-title">
     Parking floors
   </div>
 
   <div class="parking-container">
-    <div class="floor-level">
+    <div class="main-button">
       Add level above
     </div>
 
-    <div class="active floor-level">
-      Parter
+    <div *ngFor="let level of parking.levels">
+      <div [class.active]="parkingData.selectedFloor === level.name" class="main-button">
+        {{level.name}}
+      </div>
     </div>
 
-    <div class="floor-level">
-      -1
-    </div>
-
-    <div class="floor-level">
-      -2
-    </div>
-
-    <div class="floor-level">
-      -3
-    </div>
-
-    <div class="floor-level">
+    <div class="main-button">
       Add level below
     </div>
   </div>

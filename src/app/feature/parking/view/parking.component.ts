@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ParkingLogicService } from '@app/shared/services/parking-logic.service';
+
+import { ParkingService } from '@app/shared/services/parking.service';
 
 @Component({
   selector: 'app-parking',
@@ -8,23 +9,26 @@ import { ParkingLogicService } from '@app/shared/services/parking-logic.service'
 })
 export class ParkingComponent implements OnInit {
   public displayParkingZone: boolean;
-  public adminParkings;
+  public parkings;
   public userId = 1;
   public selectedParking;
-  constructor(private parkingService: ParkingLogicService) { }
+
+  constructor(private parkingService: ParkingService) { }
 
   ngOnInit(): void {
-    this.parkingService.getAdminParkings(1).subscribe(response => {
-      if(response) {
-        this.adminParkings = response;
+    this.parkingService.getParkings(1).subscribe(response => {
+      if (response) {
+        this.parkings = response;
       }
     })
   }
 
+  public backToParkings() {
+    this.displayParkingZone = false;
+  }
+
   public getSelectedParking(parking) {
-    console.log(parking)
     this.selectedParking = parking;
     this.displayParkingZone = true;
   }
-
 }

@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
-import { ParkingLogicService } from '@app/shared/services/parking-logic.service';
-import { of } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
+import { of } from 'rxjs';
+
 import { HttpResponse } from '@app/shared/interfaces/http-response.interface';
+
+import { ParkingService } from '@app/shared/services/parking.service';
+import { SpinnerService } from '@app/shared/services/spinner-service';
 
 @Component({
   selector: 'app-parking-items',
@@ -11,19 +13,22 @@ import { HttpResponse } from '@app/shared/interfaces/http-response.interface';
   styleUrls: ['./parking-items.component.scss']
 })
 export class ParkingItemsComponent implements OnInit {
-  @Input() public adminParkings;
+  @Input() public parkings;
   @Output() public getSelectedParking = new EventEmitter();
 
-  constructor(private parkingService: ParkingLogicService) { }
+  constructor(
+    private parkingService: ParkingService,
+    private spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
   }
 
   public editSelectedParking(selectedParking) {
+    this.spinnerService.makeSpinnerVisible();
+
     return of(true).pipe(
       mergeMap(() => {
         return this.parkingService.getSelectedParkingEntries(selectedParking.id).pipe(map((response: HttpResponse) => {
-          console.log('parking', response);
           const parking: HttpResponse = {};
           parking.levels = response.entries;
           return parking;
@@ -32,7 +37,6 @@ export class ParkingItemsComponent implements OnInit {
       mergeMap((parking) => {
         for (const level of parking.levels) {
           return this.parkingService.getSelectedParkingAreas(level.id).pipe(map((response: HttpResponse) => {
-            console.log('areas', response);
             level.areas = response.areas;
             return parking;
           }))
@@ -51,7 +55,7 @@ export class ParkingItemsComponent implements OnInit {
     ).subscribe(res => {
       selectedParking.levels = res.levels;
       this.getSelectedParking.emit(selectedParking);
+      this.spinnerService.hideSpinner();
     })
   }
-
 }

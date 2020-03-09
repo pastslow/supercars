@@ -8,8 +8,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    pathMatch:'full',
-    redirectTo:'admin/parking'
+    pathMatch: 'full',
+    redirectTo: 'admin/parking'
   },
   {
     path: '**',

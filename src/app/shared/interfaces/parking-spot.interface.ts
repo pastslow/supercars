@@ -1,4 +1,4 @@
-import { Spot } from './spot.interface';
+import { Spot } from '@app/shared/interfaces/spot.interface';
 
 export interface ParkingSpot {
   sizeRow: number;

@@ -1,5 +1,5 @@
-@import '../../../../../styles/color.scss';
-@import '../../../../../styles/custom-control.scss';
+@import 'styles/colors.scss';
+@import 'styles/custom-control.scss';
 
 .terrain {
     background-image: url($terrain);
@@ -11,13 +11,13 @@
     .terrain-row {
         width: 100%;
 
-        @media only screen and (min-width:900px) {
-          justify-content: center;
+        @media only screen and (min-width: 900px) {
+            justify-content: center;
         }
     }
 
     .terrain-col {
-      min-width: $terrain-size;
+        min-width: $terrain-size;
         width: $terrain-size;
         height: $terrain-size;
         color: $white;
@@ -36,9 +36,9 @@
             position: relative;
 
             &:hover {
-                background: radial-gradient(rgb(194, 194, 194), #c3b9b900);
+                background: radial-gradient(rgb(194, 194, 194), rgba(195, 185, 185, 0));
                 font-weight: bold;
-                color: white;
+                color: $white;
 
                 .active-cell {
                     opacity: 0.6;

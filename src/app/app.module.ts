@@ -1,18 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { SharedModule } from './shared/shared.module';
-import { HeaderComponent } from './feature/header/header.component';
+import { AppComponent } from '@app/app.component';
+import { HeaderComponent } from '@app/feature/header/header.component';
+
+import { AppRoutingModule } from '@app/app-routing.module';
+import { SharedModule } from '@app/shared/shared.module';
+import { SpinnerService } from './shared/services/spinner-service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -20,9 +21,9 @@ import { HeaderComponent } from './feature/header/header.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule,
+    SharedModule
   ],
-  providers: [],
+  providers: [SpinnerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
