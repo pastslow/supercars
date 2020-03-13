@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.spinnerService.isSpinnerDisplayed.subscribe((res) => {
-      debugger
       this.isSpinnerDisplayed = res;
     })
   }

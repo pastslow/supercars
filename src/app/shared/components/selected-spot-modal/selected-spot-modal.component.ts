@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { Spot } from '@app/shared/interfaces/spot.interface';
+import { ParkingArea } from '@app/shared/interfaces/parking-spot.interface';
 
 import { ParkingService } from '@app/shared/services/parking.service';
 
@@ -11,6 +12,8 @@ import { ParkingService } from '@app/shared/services/parking.service';
 })
 export class SelectedSpotModalComponent implements OnInit {
   @Input() public selectedSpot: Spot;
+  @Input() public selectedArea: ParkingArea;
+
 
   constructor(private parkingService: ParkingService) { }
 
@@ -19,9 +22,11 @@ export class SelectedSpotModalComponent implements OnInit {
 
   public changeSlotStatus(active: boolean): void {
     const isSlotActive = active ? 1 : 0;
+
     this.parkingService.changeSlotStatus(this.selectedSpot.id, isSlotActive).subscribe((res) => {
       if (res) {
-        this.selectedSpot.active = active;
+        this.selectedSpot.active = isSlotActive;
+        this.parkingService.getSelectedAreaSpotsByStatus(this.selectedArea);
       }
     })
   }

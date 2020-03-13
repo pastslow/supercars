@@ -4,7 +4,7 @@ export interface Spot {
   x: number;
   orientation: string;
   border: string;
-  active: boolean;
+  active: number;
   memberId: string;
   indicator: number;
 }

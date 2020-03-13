@@ -4,20 +4,20 @@
   </div>
 
   <div class="status-container">
-    <div class="d-flex justify-content-between slots-data-container">
+    <div class="d-flex flex-wrap justify-content-between slots-data-container">
       <div class="cell-container">
         <div class="subtitle">Total spots</div>
-        <div class="text-cell">52</div>
+        <div class="text-cell">{{parkingAreaStatus.totalSpots}}</div>
       </div>
 
       <div class="cell-container">
         <div class="subtitle">Free spots</div>
-        <div class="text-cell">3</div>
+        <div class="text-cell">{{parkingAreaStatus.unusedSpots}}</div>
       </div>
 
       <div class="cell-container">
         <div class="subtitle">Used spots</div>
-        <div class="text-cell">49</div>
+        <div class="text-cell">{{parkingAreaStatus.usedSpots}}</div>
       </div>
     </div>
   </div>

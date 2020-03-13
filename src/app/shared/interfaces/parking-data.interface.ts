@@ -1,4 +1,4 @@
 export interface ParkingData {
-  selectedArea: number;
+  selectedArea: string;
   selectedFloor: string;
 }

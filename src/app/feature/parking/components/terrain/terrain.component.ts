@@ -3,10 +3,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
 
 import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
-import { ParkingSpot } from '@app/shared/interfaces/parking-spot.interface';
+import { ParkingArea } from '@app/shared/interfaces/parking-spot.interface';
 import { Spot } from '@app/shared/interfaces/spot.interface';
 
 import { ParkingService } from '@app/shared/services/parking.service';
+import { Parking } from '@app/shared/interfaces/parking.interface';
 
 @Component({
   selector: 'app-terrain',
@@ -20,10 +21,10 @@ export class TerrainComponent implements OnInit {
   public selectedSpot: Spot;
   public parkingData: ParkingData;
 
-  public parkingArea: ParkingSpot;
+  public selectedArea: ParkingArea;
   public parkingPlacements: Spot[];
 
-  @Input() public parking;
+  @Input() public parking: Parking;
 
   constructor(private parkingService: ParkingService) { }
 
@@ -67,9 +68,10 @@ export class TerrainComponent implements OnInit {
 
   public getSelectedArea(parking): void {
     const parkingFloor = parking.levels.find(floor => floor.name === this.parkingData.selectedFloor)
-    const parkingArea = parkingFloor.areas.find(area => area.name === 'Area 1');
-    this.terrainSizeRow = new Array(parkingArea.size_y);
-    this.terrainSizeCol = new Array(parkingArea.size_x);
-    this.parkingPlacements = parkingArea.spots;
+    this.selectedArea = parkingFloor.areas.find(area => area.name === this.parkingData.selectedArea);
+    this.parkingService.getSelectedAreaSpotsByStatus(this.selectedArea);
+    this.terrainSizeRow = new Array(this.selectedArea.size_y);
+    this.terrainSizeCol = new Array(this.selectedArea.size_x);
+    this.parkingPlacements = this.selectedArea.spots;
   }
 }
