@@ -7,6 +7,7 @@ import { SpinnerModalComponent } from './components/spinner-modal/spinner-modal.
 import { UpdateLineSizeDirective } from '@app/shared/directive/update-line-size.directive';
 
 import { ParkingService } from '@app/shared/services/parking.service';
+import { SdkParkingService } from './services/sdk-parking.service';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ParkingService } from '@app/shared/services/parking.service';
   ],
   providers: [
     ParkingService,
+    SdkParkingService,
   ]
 })
 export class SharedModule { }

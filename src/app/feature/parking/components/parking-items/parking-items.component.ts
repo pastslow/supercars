@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { mergeMap, map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { takeUntil, finalize } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
-import { HttpResponse } from '@app/shared/interfaces/http-response.interface';
+import { Parking } from '@app/shared/interfaces/parking.interface';
+import { ParkingLevel } from '@app/shared/interfaces/parking-level.interface';
 
 import { ParkingService } from '@app/shared/services/parking.service';
 import { SpinnerService } from '@app/shared/services/spinner-service';
@@ -12,50 +13,35 @@ import { SpinnerService } from '@app/shared/services/spinner-service';
   templateUrl: './parking-items.component.html',
   styleUrls: ['./parking-items.component.scss']
 })
-export class ParkingItemsComponent implements OnInit {
-  @Input() public parkings;
+export class ParkingItemsComponent implements OnInit, OnDestroy {
+  @Input() public parkings: Parking[];
   @Output() public getSelectedParking = new EventEmitter();
+
+  private unsubscribe$: Subject<void> = new Subject();
 
   constructor(
     private parkingService: ParkingService,
     private spinnerService: SpinnerService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
-  public editSelectedParking(selectedParking) {
+  public editSelectedParking(selectedParking: Parking): void {
     this.spinnerService.makeSpinnerVisible();
-
-    return of(true).pipe(
-      mergeMap(() => {
-        return this.parkingService.getSelectedParkingEntries(selectedParking.id).pipe(map((response: HttpResponse) => {
-          const parking: HttpResponse = {};
-          parking.levels = response.entries;
-          return parking;
-        }))
-      }),
-      mergeMap((parking) => {
-        for (const level of parking.levels) {
-          return this.parkingService.getSelectedParkingAreas(level.id).pipe(map((response: HttpResponse) => {
-            level.areas = response.areas;
-            return parking;
-          }))
-        }
-      }),
-      mergeMap((parking) => {
-        for (const level of parking.levels) {
-          for (const area of level.areas) {
-            return this.parkingService.getAreaParkingSlots(area.id).pipe(map((response: HttpResponse) => {
-              area.spots = response.spots;
-              return parking;
-            }))
-          }
-        }
+    this.parkingService.getSelectedParkingLevels(selectedParking).pipe(
+      takeUntil(this.unsubscribe$),
+      finalize(() => {
+        this.spinnerService.hideSpinner();
       })
-    ).subscribe(res => {
-      selectedParking.levels = res.levels;
+    ).subscribe((parkingLevels: ParkingLevel[]) => {
+      selectedParking.levels = parkingLevels;
       this.getSelectedParking.emit(selectedParking);
       this.spinnerService.hideSpinner();
     })
+  }
+
+  public ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

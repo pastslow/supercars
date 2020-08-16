@@ -2,226 +2,227 @@
 @import 'styles/custom-control.scss';
 
 .terrain {
-    background-image: url($terrain);
-    padding: 28px;
-    overflow: auto;
-    margin-left: auto;
-    margin-right: auto;
+  border-radius: 5px;
+  background-image: url($terrain);
+  padding: 28px;
+  overflow: auto;
+  margin-left: auto;
+  margin-right: auto;
 
-    .terrain-row {
-        width: 100%;
+  .terrain-row {
+    width: 100%;
 
-        @media only screen and (min-width: 900px) {
-            justify-content: center;
-        }
+    @media only screen and (min-width: 900px) {
+      justify-content: center;
     }
+  }
 
-    .terrain-col {
-        min-width: $terrain-size;
-        width: $terrain-size;
-        height: $terrain-size;
+  .terrain-col {
+    min-width: $terrain-size;
+    width: $terrain-size;
+    height: $terrain-size;
+    color: $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .vertical-line {
+    .cell {
+      padding: 36px 17px;
+      border-left: $border-size solid;
+      border-right: $border-size solid;
+      cursor: pointer;
+      position: relative;
+
+      &:hover {
+        background: radial-gradient(rgb(194, 194, 194), rgba(195, 185, 185, 0));
+        font-weight: bold;
         color: $white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
+
+        .active-cell {
+          opacity: 0.6;
+        }
+      }
     }
+  }
 
-    .vertical-line {
-        .cell {
-            padding: 36px 17px;
-            border-left: $border-size solid;
-            border-right: $border-size solid;
-            cursor: pointer;
-            position: relative;
+  .active-cell {
+    height: 100%;
+    width: 100%;
+    background: url($car);
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    max-height: 60px;
+    max-width: 26px;
 
-            &:hover {
-                background: radial-gradient(rgb(194, 194, 194), rgba(195, 185, 185, 0));
-                font-weight: bold;
-                color: $white;
+    top: 4px;
+    left: 0;
+  }
 
-                .active-cell {
-                    opacity: 0.6;
-                }
-            }
-        }
-    }
-
-    .active-cell {
-        height: 100%;
-        width: 100%;
-        background: url($car);
-        position: absolute;
-        background-size: cover;
-        background-repeat: no-repeat;
-        max-height: 60px;
-        max-width: 26px;
-
-        top: 4px;
-        left: 0;
-    }
-
-    .vertical-cell {
-        .cell {
-            padding: 36px 17px;
-        }
-
-        .border-bottom {
-            .cell-indicator {
-                bottom: 64px;
-            }
-
-            .active-cell {
-                top: 8px;
-                left: 5px;
-                transform: rotate(180deg);
-            }
-        }
-
-        .border-top {
-            .cell-indicator {
-                top: 64px;
-            }
-
-            .active-cell {
-                left: 3px;
-                transform: rotate(0deg);
-            }
-        }
-    }
-
-    .horizontal-cell {
-        transform: rotate(90deg);
-
-        .cell {
-            padding: 36px 17px;
-
-            .cell-indicator {
-                transform: rotate(-90deg);
-            }
-        }
-
-        .border-bottom {
-            .cell-indicator {
-                bottom: 64px;
-            }
-
-            .active-cell {
-                top: 8px;
-                left: 5px;
-                transform: rotate(180deg);
-            }
-        }
-
-        .border-top {
-            .cell-indicator {
-                top: 64px;
-            }
-
-            .active-cell {
-                left: 3px;
-                transform: rotate(0deg);
-            }
-        }
-    }
-
-    .clockwise-cell {
-        transform: rotate(27deg);
-
-        .cell {
-            padding: 40px 15px;
-
-            .active-cell {
-                transform: rotate(180deg);
-                left: 3px;
-            }
-
-            .cell-indicator {
-                transform: rotate(-27deg);
-            }
-        }
-
-        .border-bottom {
-            .active-cell {
-                top: 16px;
-            }
-
-            .cell-indicator {
-                top: -10px;
-            }
-        }
-
-        .border-top {
-            .cell-indicator {
-                bottom: -10px;
-            }
-        }
-    }
-
-    .counterclockwise-cell {
-        transform: rotate(-27deg);
-
-        .cell {
-            padding: 40px 15px;
-
-            .active-cell {
-                transform: rotate(0);
-                left: 1px;
-            }
-
-            .cell-indicator {
-                transform: rotate(27deg);
-            }
-        }
-
-        .border-bottom {
-            .active-cell {
-                top: 16px;
-            }
-
-            .cell-indicator {
-                top: -10px;
-            }
-        }
-
-        .border-top {
-            .cell-indicator {
-                bottom: -10px;
-            }
-        }
-    }
-
-    .border-top {
-        border-top: 2px solid $white !important;
+  .vertical-cell {
+    .cell {
+      padding: 36px 17px;
     }
 
     .border-bottom {
-        border-bottom: 2px solid $white !important;
+      .cell-indicator {
+        bottom: 64px;
+      }
+
+      .active-cell {
+        top: 8px;
+        left: 5px;
+        transform: rotate(180deg);
+      }
     }
 
-    .cell-indicator {
-        position: absolute;
-        width: 100%;
-        left: 0;
-        text-align: center;
+    .border-top {
+      .cell-indicator {
+        top: 64px;
+      }
+
+      .active-cell {
+        left: 3px;
+        transform: rotate(0deg);
+      }
+    }
+  }
+
+  .horizontal-cell {
+    transform: rotate(90deg);
+
+    .cell {
+      padding: 36px 17px;
+
+      .cell-indicator {
+        transform: rotate(-90deg);
+      }
     }
 
-    .hidden-cell {
-        opacity: 0;
+    .border-bottom {
+      .cell-indicator {
+        bottom: 64px;
+      }
+
+      .active-cell {
+        top: 8px;
+        left: 5px;
+        transform: rotate(180deg);
+      }
     }
 
-    .block-cell {
-        background-image: url(/assets/img/bg/cell-block.png);
-        background-size: contain;
-        border: 2px solid;
+    .border-top {
+      .cell-indicator {
+        top: 64px;
+      }
 
-        .cell {
-            border: 0;
-
-            &:hover {
-                background: none;
-                border-color: transparent;
-            }
-        }
+      .active-cell {
+        left: 3px;
+        transform: rotate(0deg);
+      }
     }
+  }
+
+  .clockwise-cell {
+    transform: rotate(27deg);
+
+    .cell {
+      padding: 40px 15px;
+
+      .active-cell {
+        transform: rotate(180deg);
+        left: 3px;
+      }
+
+      .cell-indicator {
+        transform: rotate(-27deg);
+      }
+    }
+
+    .border-bottom {
+      .active-cell {
+        top: 16px;
+      }
+
+      .cell-indicator {
+        top: -10px;
+      }
+    }
+
+    .border-top {
+      .cell-indicator {
+        bottom: -10px;
+      }
+    }
+  }
+
+  .counterclockwise-cell {
+    transform: rotate(-27deg);
+
+    .cell {
+      padding: 40px 15px;
+
+      .active-cell {
+        transform: rotate(0);
+        left: 1px;
+      }
+
+      .cell-indicator {
+        transform: rotate(27deg);
+      }
+    }
+
+    .border-bottom {
+      .active-cell {
+        top: 16px;
+      }
+
+      .cell-indicator {
+        top: -10px;
+      }
+    }
+
+    .border-top {
+      .cell-indicator {
+        bottom: -10px;
+      }
+    }
+  }
+
+  .border-top {
+    border-top: 2px solid $white !important;
+  }
+
+  .border-bottom {
+    border-bottom: 2px solid $white !important;
+  }
+
+  .cell-indicator {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+  }
+
+  .hidden-cell {
+    opacity: 0;
+  }
+
+  .block-cell {
+    background-image: url(/assets/img/bg/cell-block.png);
+    background-size: contain;
+    border: 2px solid;
+
+    .cell {
+      border: 0;
+
+      &:hover {
+        background: none;
+        border-color: transparent;
+      }
+    }
+  }
 }

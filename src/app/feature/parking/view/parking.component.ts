@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ParkingService } from '@app/shared/services/parking.service';
 import { Parking } from '@app/shared/interfaces/parking.interface';
 import { HttpResponse } from '@app/shared/interfaces/http-response.interface';
 import { ParkingArea } from '@app/shared/interfaces/parking-spot.interface';
+
+import { SdkParkingService } from '@app/shared/services/sdk-parking.service';
 
 @Component({
   selector: 'app-parking',
@@ -16,21 +17,21 @@ export class ParkingComponent implements OnInit {
   public userId = 1;
   public selectedParking: ParkingArea;
 
-  constructor(private parkingService: ParkingService) { }
+  constructor(private sdkParkingService: SdkParkingService) { }
 
-  ngOnInit(): void {
-    this.parkingService.getParkings(1).subscribe((response: HttpResponse) => {
+  public ngOnInit(): void {
+    this.sdkParkingService.getParkings(1).subscribe((response: HttpResponse) => {
       if (response) {
         this.parkings = response.parking;
       }
     })
   }
 
-  public backToParkings() {
+  public backToParkings(): void {
     this.displayParkingZone = false;
   }
 
-  public getSelectedParking(parking) {
+  public getSelectedParking(parking): void {
     this.selectedParking = parking;
     this.displayParkingZone = true;
   }

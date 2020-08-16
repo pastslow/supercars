@@ -9,7 +9,7 @@
       <div class="modal-body d-flex">
 
         <div class="data-container">
-          <div *ngIf="selectedSpot?.active" class="text-center">IS 77 MDV</div>
+          <div *ngIf="selectedSpot?.active" class="text-center">{{driver?.car_plate}}</div>
           <div *ngIf="!selectedSpot?.active" class="text-center">Empty</div>
 
           <div class="terrain">
@@ -31,21 +31,21 @@
 
         <div class="form-group" *ngIf="selectedSpot?.active">
           <label class="form-label" for="driverName">Driver</label>
-          <input type="text" class="form-control form-input" id="driverName" readonly value="Ciubotariu Robert">
+          <input type="text" class="form-control form-input" id="driverName" readonly [value]="driver?.name">
 
           <label class="form-label" for="driverContactNumber">Tel</label>
-          <input type="text" class="form-control form-input" id="driverContactNumber" readonly value="0752757083">
+          <input type="text" class="form-control form-input" id="driverContactNumber" readonly [value]="driver?.phone_number">
 
           <div class="d-flex">
             <div>
               <label class="form-label" for="driverCheckInDate">Check-In</label>
-              <input type="text" class="form-control form-input" id="driverCheckInDate" readonly value="08:00">
+              <input type="text" class="form-control form-input" id="driverCheckInDate" readonly [value]="driver?.check_in">
             </div>
 
             <div class="text-center form-small-input">
               <label class="form-label" for="driverTimeSpend">Time spend</label>
               <input type="text" class="form-control form-input text-center" id="driverTimeSpend" readonly
-                value="22min">
+                [value]="calculateDriverTimeSpend() + ' h'">
             </div>
           </div>
         </div>

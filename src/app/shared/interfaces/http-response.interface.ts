@@ -9,5 +9,6 @@ export interface HttpResponse {
   spots?: Spot[];
   areas?: ParkingArea[];
   entries?: ParkingFloor[];
-  parking?: Parking
+  parking?: Parking;
+  drivers?: any;
 }

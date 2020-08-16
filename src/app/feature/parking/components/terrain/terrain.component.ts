@@ -1,13 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import * as _ from 'lodash';
-
 import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
 import { ParkingArea } from '@app/shared/interfaces/parking-spot.interface';
 import { Spot } from '@app/shared/interfaces/spot.interface';
+import { Parking } from '@app/shared/interfaces/parking.interface';
 
 import { ParkingService } from '@app/shared/services/parking.service';
-import { Parking } from '@app/shared/interfaces/parking.interface';
+import { SdkParkingService } from '@app/shared/services/sdk-parking.service';
+import { takeUntil, map } from 'rxjs/operators';
+import { HttpResponse } from '@app/shared/interfaces/http-response.interface';
 
 @Component({
   selector: 'app-terrain',
@@ -17,6 +18,7 @@ import { Parking } from '@app/shared/interfaces/parking.interface';
 export class TerrainComponent implements OnInit {
   public terrainSizeRow: Array<number>;
   public terrainSizeCol: Array<number>;
+  public driver;
 
   public selectedSpot: Spot;
   public parkingData: ParkingData;
@@ -26,9 +28,11 @@ export class TerrainComponent implements OnInit {
 
   @Input() public parking: Parking;
 
-  constructor(private parkingService: ParkingService) { }
+  constructor(
+    private parkingService: ParkingService,
+    private sdkParkingService: SdkParkingService) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.parkingData = this.parkingService.parkingData;
 
     if (this.parking) {
@@ -42,7 +46,7 @@ export class TerrainComponent implements OnInit {
       y: coordinateY
     };
 
-    return this.parkingService.updateParkingPlacements(coordinate, this.parkingPlacements);
+    return this.parkingService.getSelectedCell(coordinate, this.parkingPlacements);
   }
 
   public updateCell(coordinateY: number, coordinateX: number): boolean {
@@ -63,7 +67,13 @@ export class TerrainComponent implements OnInit {
   }
 
   public getSelectedSpot(coordinateY: number, coordinateX: number): void {
-    this.selectedSpot = _.find(this.parkingPlacements, spot => spot.x === coordinateX && spot.y === coordinateY);
+    this.selectedSpot = this.parkingPlacements.find(spot => spot.x === coordinateX && spot.y === coordinateY);
+
+    this.sdkParkingService.getDriverFromSelectedSpot(this.selectedSpot.id).pipe(
+      map((response: HttpResponse) => {
+        this.driver = response.drivers[0];
+      })
+    ).subscribe()
   }
 
   public getSelectedArea(parking): void {

@@ -1,7 +1,5 @@
 import { Directive, Input, AfterViewInit } from '@angular/core';
 
-import * as _ from 'lodash';
-
 @Directive({
   selector: '[appUpdateLineSize]'
 })
@@ -17,8 +15,8 @@ export class UpdateLineSizeDirective implements AfterViewInit {
     this.updateLineSize(this.terrain, this.rowNumber, this.colNumber);
   }
 
-  private updateLineSize(terrain: Element, rowNumber: number, colNumber: number) {
-    const selectedSlot = _.find(this.parkingPlacements, spot => spot.x === colNumber && spot.y === rowNumber);
+  private updateLineSize(terrain: Element, rowNumber: number, colNumber: number): void {
+    const selectedSlot = this.parkingPlacements.find(spot => spot.x === colNumber && spot.y === rowNumber);
 
     const selectedRow = terrain.children[rowNumber];
 

@@ -1,3 +1,5 @@
+import { ParkingLevel } from './parking-level.interface';
+
 export interface Parking {
   id: number;
   name: string;
@@ -9,4 +11,5 @@ export interface Parking {
   start_date: string;
   end_date: string;
   user_id: number;
+  levels: ParkingLevel[];
 }
