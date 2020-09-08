@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SelectedSpotModalComponent } from '@app/shared/components/selected-spot-modal/selected-spot-modal.component';
-import { SpinnerModalComponent } from './components/spinner-modal/spinner-modal.component';
+import { SpinnerModalComponent } from '@app/shared/components/spinner-modal/spinner-modal.component';
 
 import { UpdateLineSizeDirective } from '@app/shared/directive/update-line-size.directive';
 
 import { ParkingService } from '@app/shared/services/parking.service';
-import { SdkParkingService } from './services/sdk-parking.service';
+import { ParkingApiService } from '@app/shared/services/parking-api-service';
+import { ParkingSelectedSpotService } from './services/parking-selected-spot.service';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { SdkParkingService } from './services/sdk-parking.service';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     UpdateLineSizeDirective,
@@ -25,7 +29,8 @@ import { SdkParkingService } from './services/sdk-parking.service';
   ],
   providers: [
     ParkingService,
-    SdkParkingService,
+    ParkingSelectedSpotService,
+    ParkingApiService,
   ]
 })
 export class SharedModule { }

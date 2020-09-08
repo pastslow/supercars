@@ -6,11 +6,11 @@
         <h4 class="modal-title">Spot {{selectedSpot?.indicator}}</h4>
       </div>
 
-      <div class="modal-body d-flex">
+      <div class="modal-body d-flex container">
 
         <div class="data-container">
           <div *ngIf="selectedSpot?.active" class="text-center">{{driver?.car_plate}}</div>
-          <div *ngIf="!selectedSpot?.active" class="text-center">Empty</div>
+          <div *ngIf="!selectedSpot?.active" class="text-center">EMPTY</div>
 
           <div class="terrain">
             <div class="vertical-line">
@@ -21,63 +21,72 @@
 
             </div>
           </div>
-          <button *ngIf="selectedSpot?.active" class="btn btn-primary btn-sm" (click)="changeSlotStatus(false)"
-            data-dismiss="modal">Check
-            Out</button>
-          <button *ngIf="!selectedSpot?.active" class="btn btn-primary btn-sm" (click)="changeSlotStatus(true)"
-            data-dismiss="modal">Check
-            In</button>
+          <button *ngIf="selectedSpot?.active" class="btn btn-primary btn-sm custom-modal-button" (click)="changeSlotStatus(false)"
+            data-dismiss="modal">CHECK OUT</button>
+          <button *ngIf="!selectedSpot?.active" class="btn btn-primary btn-sm custom-modal-button" (click)="changeSlotStatus(true)">CHECK
+            IN</button>
         </div>
 
-        <div class="form-group" *ngIf="selectedSpot?.active">
-          <label class="form-label" for="driverName">Driver</label>
-          <input type="text" class="form-control form-input" id="driverName" readonly [value]="driver?.name">
+        <div class="form-group row" *ngIf="selectedSpot?.active">
+          <div class="col-12 form-control-input">
+            <label class="form-label" for="driverName">Driver</label>
+            <input type="text" class="form-control form-input" id="driverName" readonly [value]="driver?.name">
+          </div>
 
-          <label class="form-label" for="driverContactNumber">Tel</label>
-          <input type="text" class="form-control form-input" id="driverContactNumber" readonly [value]="driver?.phone_number">
+          <div class="col-12 form-control-input">
+            <label class="form-label" for="driverContactNumber">Tel</label>
+            <input type="text" class="form-control form-input" id="driverContactNumber" readonly
+              [value]="driver?.phone_number">
+          </div>
 
-          <div class="d-flex">
-            <div>
-              <label class="form-label" for="driverCheckInDate">Check-In</label>
-              <input type="text" class="form-control form-input" id="driverCheckInDate" readonly [value]="driver?.check_in">
-            </div>
+          <div class="col-lg-6 col-md-12 form-control-input">
+            <label class="form-label" for="driverCheckInDate">Check-In</label>
+            <input type="text" class="form-control form-input" id="driverCheckInDate" readonly
+              [value]="driver?.check_in">
+          </div>
 
-            <div class="text-center form-small-input">
-              <label class="form-label" for="driverTimeSpend">Time spend</label>
-              <input type="text" class="form-control form-input text-center" id="driverTimeSpend" readonly
-                [value]="calculateDriverTimeSpend() + ' h'">
+          <div class="text-center col-lg-6 col-md-12">
+            <label class="form-label" for="driverTimeSpend">Time spend</label>
+            <div id="driverTimeSpend">{{driverTimeSpend}}
             </div>
           </div>
         </div>
 
-        <div class="form-group" *ngIf="!selectedSpot?.active">
-          <label class="form-label" for="editdriverName">Driver</label>
-          <input type="text" class="form-control form-input edit-form-input" id="driverName" placeholder="Driver name">
-
-          <label class="form-label" for="driverEditCarPlate">Car plate</label>
-          <input type="text" class="form-control form-input edit-form-input" id="driverCarPlate"
-            placeholder="Car plate">
-
-          <div class="d-flex">
-            <div>
-              <label class="form-label" for="driverContactNumber">Tel</label>
-              <input type="text" class="form-control form-input edit-form-input" id="driverContactNumber"
-                placeholder="Phone number" value="">
+        <form [formGroup]="profileForm">
+          <div class="form-group row" *ngIf="!selectedSpot?.active">
+            <div class="driver-car-plate col-12 form-control-input">
+              <label class="form-label" for="driverEditCarPlate">CAR PLATE<span class="form-required">*</span></label>
+              <input formControlName="carPlate" type="text" class="form-control form-input"
+                id="driverCarPlate" placeholder="Car plate">
+              <span *ngIf="displayFormControlError('carPlate')" class="form-input-error">Please
+                insert a car plate</span>
             </div>
 
-            <div class="form-small-input">
-              <label class="form-label" for="driverEditCheckIn">Check-In</label>
-              <input type="text" class="form-control form-input edit-form-input" id="driverCheckIn"
-                placeholder="ex: 20:20">
+            <div class="col-12 form-control-input">
+              <label class="form-label" for="editdriverName">DRIVER NAME</label>
+              <input formControlName="driverName" type="text" class="form-control form-input"
+                id="driverName" placeholder="Driver name">
+            </div>
+
+            <div class="col-lg-6 col-md-12 form-control-input">
+              <label class="form-label" for="driverContactNumber">PHONE NUMBER</label>
+              <input formControlName="phoneNumber" type="text" class="form-control form-input"
+                id="driverContactNumber" placeholder="Phone number" value="">
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+              <label class="form-label" for="driverEditCheckIn">CHECK-IN DATE</label>
+              <input readonly formControlName="date" type="text" class="form-control form-input"
+                id="driverCheckIn" placeholder="ex: 20:20">
             </div>
           </div>
-        </div>
+        </form>
       </div>
 
       <div class="modal-footer">
         <button *ngIf="selectedSpot?.active" class="btn btn-primary btn-sm" data-dismiss="modal">Edit</button>
 
-        <button class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+        <button (click)="resetProfileForm()" #close class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
       </div>
 
     </div>

@@ -2,94 +2,115 @@
 @import 'styles/custom-control.scss';
 
 .modal-content {
-    color: $black;
+  color: $black;
 
-    .modal-header {
-        position: relative;
+  .custom-modal-button {
+    width: 100%;
+  }
 
-        .modal-title {
-            text-align: center;
-            margin: auto;
-        }
+  .modal-body {
+    margin-bottom: 0;
+  }
+
+  .modal-header {
+    position: relative;
+
+    .modal-title {
+      text-align: center;
+      margin: auto;
     }
+  }
 }
 
 .form-group {
-    .form-label {
-        margin-bottom: 0;
-        font-size: 14px;
-    }
+  margin-left: 0;
 
-    .form-small-input {
-        max-width: 100px;
-        margin-left: 10px;
-    }
+  .form-label {
+    margin-bottom: 0;
+    font-size: 14px;
+  }
+
+  .form-required {
+    color: rgb(255, 0, 0);
+    position: relative;
+    top: -2px;
+    font-weight: bold;
+    margin-left: 1px;
+  }
+
+  .form-control-input {
+    margin-bottom: 10px;
+  }
+
+  .driver-car-plate {
+    display: flex;
+    flex-wrap: wrap;
 
     .form-input {
-        height: 25px;
-        font-size: 18px;
-        padding: 0 10px;
-        border: 1px solid;
-        cursor: initial;
-        margin-bottom: 10px;
+      margin-bottom: 0;
+    }
+  }
 
-        &:last-child {
-            margin-bottom: 0;
-        }
+  .form-input-error {
+    color: rgb(255, 0, 0);
+    font-size: 12px;
+  }
 
-        &:focus {
-            box-shadow: none;
-        }
+  .form-input {
+    height: 25px;
+    font-size: 16px;
+    padding: 0 5px;
+    border: 1px solid;
+    cursor: initial;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
     }
 
-    .edit-form-input {
-        padding: 0 10px;
-        margin-bottom: 10px;
-
-        &:last-child {
-            margin-bottom: 0;
-        }
+    &:focus {
+      box-shadow: none;
     }
+  }
 }
 
 .data-container {
-    margin-right: 20px;
-    text-align: center;
+  text-align: center;
 
-    .terrain {
-        width: 100px;
-        height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: auto;
+  .terrain {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
 
-        .vertical-line {
-            width: $terrain-size;
-            height: $terrain-size;
-            display: flex;
-            align-items: center;
+    .vertical-line {
+      width: $terrain-size;
+      height: $terrain-size;
+      display: flex;
+      align-items: center;
 
-            .cell {
-                padding: 40px 18px;
-                border-left: $border-size solid $black;
-                border-right: $border-size solid $black;
-                position: relative;
-                cursor: pointer;
+      .cell {
+        padding: 40px 18px;
+        border-left: $border-size solid $black;
+        border-right: $border-size solid $black;
+        position: relative;
+        cursor: pointer;
 
-                .active-cell {
-                    height: 100%;
-                    width: 100%;
-                    background: url($car);
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    position: absolute;
-                    max-height: 76px;
-                    max-width: 35px;
-                    top: 0;
-                    left: 0;
-                }
-            }
+        .active-cell {
+          height: 100%;
+          width: 100%;
+          background: url($car);
+          background-size: cover;
+          background-repeat: no-repeat;
+          position: absolute;
+          max-height: 76px;
+          max-width: 35px;
+          top: 0;
+          left: 0;
         }
+      }
     }
+  }
 }

@@ -5,6 +5,6 @@ export interface Spot {
   orientation: string;
   border: string;
   active: number;
-  memberId: string;
   indicator: number;
+  parkingAreaId: number;
 }

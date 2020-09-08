@@ -1,5 +1,5 @@
 export class SharedConstants {
-  static parkingModels = {
+  public static parkingModels = {
     parter: [
       {
         sizeRow: 11,
@@ -1907,4 +1907,6 @@ export class SharedConstants {
       }
     ]
   }
+
+  public static dateLongFormat = 'MM.DD.YYYY h:mm a';
 }

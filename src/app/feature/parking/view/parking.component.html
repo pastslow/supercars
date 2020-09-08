@@ -11,12 +11,12 @@
   <div *ngIf="displayParkingZone">
     <div class="row parking-zone">
       <div class="col-sm-12 col-md-4 col-lg-3">
-        <app-parking-status [parking]="selectedParking" class="w-100"></app-parking-status>
-        <app-parking-floors [parking]="selectedParking" class="w-100"></app-parking-floors>
+        <app-parking-status [parkings]="parkings" [parkingData]="parkingData" class="w-100"></app-parking-status>
+        <app-parking-floors [parkingData]="parkingData" [parking]="selectedParking" class="w-100"></app-parking-floors>
       </div>
 
       <div class="col-sm-12 col-md-8 col-lg-9">
-        <app-terrain [parking]="selectedParking"></app-terrain>
+        <app-terrain [parkingData]="parkingData" [parking]="selectedParking"></app-terrain>
       </div>
     </div>
   </div>

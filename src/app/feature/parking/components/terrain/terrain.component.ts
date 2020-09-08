@@ -1,14 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
-import { ParkingArea } from '@app/shared/interfaces/parking-spot.interface';
 import { Spot } from '@app/shared/interfaces/spot.interface';
 import { Parking } from '@app/shared/interfaces/parking.interface';
 
 import { ParkingService } from '@app/shared/services/parking.service';
-import { SdkParkingService } from '@app/shared/services/sdk-parking.service';
-import { takeUntil, map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { HttpResponse } from '@app/shared/interfaces/http-response.interface';
+import { ParkingApiService } from '@app/shared/services/parking-api-service';
+import { Subject } from 'rxjs';
+import { ParkingArea } from '@app/shared/interfaces/parking-area.interface';
 
 @Component({
   selector: 'app-terrain',
@@ -21,20 +22,18 @@ export class TerrainComponent implements OnInit {
   public driver;
 
   public selectedSpot: Spot;
-  public parkingData: ParkingData;
 
   public selectedArea: ParkingArea;
   public parkingPlacements: Spot[];
 
+  @Input() public parkingData: ParkingData;
   @Input() public parking: Parking;
 
   constructor(
     private parkingService: ParkingService,
-    private sdkParkingService: SdkParkingService) { }
+    private parkingApiService: ParkingApiService) { }
 
   public ngOnInit(): void {
-    this.parkingData = this.parkingService.parkingData;
-
     if (this.parking) {
       this.getSelectedArea(this.parking);
     }
@@ -69,7 +68,7 @@ export class TerrainComponent implements OnInit {
   public getSelectedSpot(coordinateY: number, coordinateX: number): void {
     this.selectedSpot = this.parkingPlacements.find(spot => spot.x === coordinateX && spot.y === coordinateY);
 
-    this.sdkParkingService.getDriverFromSelectedSpot(this.selectedSpot.id).pipe(
+    this.parkingApiService.getDriverFromSelectedSpot(this.selectedSpot.id).pipe(
       map((response: HttpResponse) => {
         this.driver = response.drivers[0];
       })
