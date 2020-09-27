@@ -18,7 +18,7 @@ export class SelectedSpotModalComponent implements OnInit, OnDestroy, OnChanges 
   @Input() public selectedSpot: Spot;
   @Input() public selectedArea: ParkingArea;
   @Input() public driver: ParkingDriver;
-  @ViewChild('close') closeButton: ElementRef;
+  @ViewChild('close') private closeButton: ElementRef;
 
   public profileForm: FormGroup = new FormGroup({
     driverName: new FormControl(''),
@@ -42,10 +42,10 @@ export class SelectedSpotModalComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this.getDriverCheckInTime();
+    this.updateDriverCheckInTime();
 
     if (changes.driver) {
-      this.getDriverTimeSpend();
+      this.updateDriverTimeSpend();
     }
   }
 
@@ -74,12 +74,12 @@ export class SelectedSpotModalComponent implements OnInit, OnDestroy, OnChanges 
     return this.parkingSelectedSpotService.displayFormControlError(this.profileForm, formControlName);
   }
 
-  public getDriverCheckInTime(): void {
+  private updateDriverCheckInTime(): void {
     const driverCheckInTime = this.parkingSelectedSpotService.getDriverCheckInTime();
     this.profileForm.controls.date.patchValue(driverCheckInTime);
   }
 
-  public getDriverTimeSpend(): void {
+  private updateDriverTimeSpend(): void {
     this.driverTimeSpend = this.parkingSelectedSpotService.getDriverTimeSpend(this.driver);
   }
 }

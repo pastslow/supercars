@@ -11,7 +11,7 @@ export class UpdateLineSizeDirective implements AfterViewInit {
 
   constructor() { }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.updateLineSize(this.terrain, this.rowNumber, this.colNumber);
   }
 

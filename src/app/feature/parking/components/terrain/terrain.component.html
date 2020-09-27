@@ -2,9 +2,9 @@
 
 <div class="terrain" id="terrain" #terrain>
   <div *ngFor="let row of terrainSizeRow; index as i" class="terrain-row d-flex">
-    <div id="y{{i}}x{{j}}" #cell appUpdateLineSize [class.vertical-line]="updateParkingPlacements(i, j)"
+    <div id="y{{i}}x{{j}}" #cell appUpdateLineSize [class.vertical-line]="getSelectedCell(i, j)"
       *ngFor="let col of terrainSizeCol; index as j" class="terrain-col" [parkingPlacements]="parkingPlacements"
-      [terrain]="terrain" [rowNumber]="i" [colNumber]="j" [class.block-cell]="updateCell(i, j)">
+      [terrain]="terrain" [rowNumber]="i" [colNumber]="j" [class.block-cell]="isBlockCell(i, j)">
 
       <div class="cell" (click)="getSelectedSpot(i, j)" data-toggle="modal" data-target="#selectedSpot">
         <div class="cell-indicator">

@@ -1,33 +1,34 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
 import { Spot } from '@app/shared/interfaces/spot.interface';
 import { Parking } from '@app/shared/interfaces/parking.interface';
+import { ParkingArea } from '@app/shared/interfaces/parking-area.interface';
+import { ParkingDriver } from '@app/shared/interfaces/parking-driver.interface';
+import { HttpResponse } from '@app/shared/interfaces/http-response.interface';
 
 import { ParkingService } from '@app/shared/services/parking.service';
-import { map, takeUntil } from 'rxjs/operators';
-import { HttpResponse } from '@app/shared/interfaces/http-response.interface';
 import { ParkingApiService } from '@app/shared/services/parking-api-service';
-import { Subject } from 'rxjs';
-import { ParkingArea } from '@app/shared/interfaces/parking-area.interface';
 
 @Component({
   selector: 'app-terrain',
   templateUrl: './terrain.component.html',
   styleUrls: ['./terrain.component.scss']
 })
-export class TerrainComponent implements OnInit {
+export class TerrainComponent implements OnInit, OnDestroy {
+  @Input() public parkingData: ParkingData;
+  @Input() public parking: Parking;
+
   public terrainSizeRow: Array<number>;
   public terrainSizeCol: Array<number>;
-  public driver;
-
+  public driver: ParkingDriver;
   public selectedSpot: Spot;
-
   public selectedArea: ParkingArea;
   public parkingPlacements: Spot[];
 
-  @Input() public parkingData: ParkingData;
-  @Input() public parking: Parking;
+  private unsubscribe$: Subject<void> = new Subject();
 
   constructor(
     private parkingService: ParkingService,
@@ -35,11 +36,16 @@ export class TerrainComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.parking) {
-      this.getSelectedArea(this.parking);
+      this.updateSelectedParking(this.parking);
     }
   }
 
-  public updateParkingPlacements(coordinateY: number, coordinateX: number): Spot {
+  public ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  public getSelectedCell(coordinateY: number, coordinateX: number): Spot {
     const coordinate = {
       x: coordinateX,
       y: coordinateY
@@ -48,16 +54,16 @@ export class TerrainComponent implements OnInit {
     return this.parkingService.getSelectedCell(coordinate, this.parkingPlacements);
   }
 
-  public updateCell(coordinateY: number, coordinateX: number): boolean {
-    const selectedCell = this.updateParkingPlacements(coordinateY, coordinateX);
+  public isBlockCell(coordinateY: number, coordinateX: number): boolean {
+    const selectedCell = this.getSelectedCell(coordinateY, coordinateX);
 
     if (selectedCell) {
       return selectedCell.orientation === 'block-cell' ? true : false;
     }
   }
 
-  public getCellData(coordinateY: number, coordinateX: number, selectedData: string) {
-    const selectedCell = this.updateParkingPlacements(coordinateY, coordinateX);
+  public getCellData(coordinateY: number, coordinateX: number, selectedData: string): any {
+    const selectedCell = this.getSelectedCell(coordinateY, coordinateX);
     if (selectedCell) {
       if (selectedCell[selectedData] !== undefined) {
         return selectedCell[selectedData];
@@ -69,13 +75,13 @@ export class TerrainComponent implements OnInit {
     this.selectedSpot = this.parkingPlacements.find(spot => spot.x === coordinateX && spot.y === coordinateY);
 
     this.parkingApiService.getDriverFromSelectedSpot(this.selectedSpot.id).pipe(
-      map((response: HttpResponse) => {
-        this.driver = response.drivers[0];
-      })
-    ).subscribe()
+      takeUntil(this.unsubscribe$),
+    ).subscribe((response: HttpResponse) => {
+      this.driver = response.drivers[0];
+    })
   }
 
-  public getSelectedArea(parking): void {
+  public updateSelectedParking(parking: Parking): void {
     const parkingFloor = parking.levels.find(floor => floor.name === this.parkingData.selectedFloor)
     this.selectedArea = parkingFloor.areas.find(area => area.name === this.parkingData.selectedArea);
     this.parkingService.getSelectedAreaSpotsByStatus(this.selectedArea);

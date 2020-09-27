@@ -39,7 +39,9 @@ export class ParkingStatusComponent implements OnInit, OnDestroy {
         }
       }),
       mergeMap((parkingAreaStatus: ParkingAreaStatus) => {
-        if (parkingAreaStatus && !parkingAreaStatus.parkingId) {
+        const parkingIdType = typeof parkingAreaStatus.parkingId
+
+        if (parkingAreaStatus && parkingIdType !== 'number') {
           return of(parkingAreaStatus)
         }
 
