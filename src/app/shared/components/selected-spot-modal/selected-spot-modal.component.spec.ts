@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SimpleChanges } from '@angular/core';
+import { NO_ERRORS_SCHEMA, SimpleChanges } from '@angular/core';
 
 import { SelectedSpotModalComponent } from '@app/shared/components/selected-spot-modal/selected-spot-modal.component'
 
@@ -17,6 +17,9 @@ describe('SelectedSpotModalComponent', () => {
       ],
       providers: [
         { provide: ParkingSelectedSpotService, useValue: jasmine.createSpyObj('ParkingSelectedSpotService', ['changeSlotStatus', 'displayFormControlError', 'getDriverCheckInTime', 'getDriverTimeSpend']) }
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA
       ]
     }).compileComponents();
 

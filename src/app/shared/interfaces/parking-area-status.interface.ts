@@ -1,5 +1,5 @@
 export interface ParkingAreaStatus {
-  parkingId?: number;
+  parkingId?: string;
   totalSpots: number;
   usedSpots: number;
   unusedSpots: number;

@@ -10,6 +10,7 @@ import { ParkingItemsComponent } from '@app/feature/parking/components/parking-i
 
 import { SharedModule } from '@app/shared/shared.module';
 import { ParkingRoutingModule } from './parking-routing.module';
+import { ParkingFacadeService } from '@app/feature/parking/services/parking-facade-service.service';
 
 @NgModule({
   declarations: [
@@ -18,15 +19,10 @@ import { ParkingRoutingModule } from './parking-routing.module';
     ParkingStatusHeaderComponent,
     TerrainComponent,
     ParkingComponent,
-    ParkingItemsComponent
+    ParkingItemsComponent,
   ],
-  imports: [
-    CommonModule,
-    ParkingRoutingModule,
-    SharedModule
-  ],
-  exports: [
-    ParkingComponent
-  ],
+  imports: [CommonModule, ParkingRoutingModule, SharedModule],
+  exports: [ParkingComponent],
+  providers: [ParkingFacadeService],
 })
-export class ParkingModule { }
+export class ParkingModule {}

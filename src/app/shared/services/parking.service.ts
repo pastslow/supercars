@@ -15,16 +15,24 @@ import { ParkingApiService } from '@app/shared/services/parking-api-service';
 
 @Injectable()
 export class ParkingService {
-  private parkingData$: BehaviorSubject<ParkingData> = new BehaviorSubject(
-    { selectedArea: 'Area 1', selectedFloor: 'Parter' });
+  private totalParkings$: BehaviorSubject<number> = new BehaviorSubject(0);
+  private totalParkingsArea$: BehaviorSubject<number> = new BehaviorSubject(0);
+
+  private parkingData$: BehaviorSubject<ParkingData> = new BehaviorSubject({
+    selectedArea: 'Area 1',
+    selectedFloor: 'Parter',
+  });
 
   private parkingAreaStatus$: BehaviorSubject<ParkingAreaStatus> = new BehaviorSubject(
     {
+      parkingId: '',
       totalSpots: 0,
       usedSpots: 0,
-      unusedSpots: 0
+      unusedSpots: 0,
     }
   );
+
+  constructor(private parkingApiService: ParkingApiService) {}
 
   public getParkingData$(): BehaviorSubject<ParkingData> {
     return this.parkingData$;
@@ -39,55 +47,77 @@ export class ParkingService {
   }
 
   public updateParkingAreaStatus(parkingAreaStatus: ParkingAreaStatus): void {
-    this.parkingAreaStatus$.next(parkingAreaStatus)
+    this.parkingAreaStatus$.next(parkingAreaStatus);
   }
 
-  constructor(private parkingApiService: ParkingApiService) { }
-
-  public getSelectedCell(coordinate: Coordinate, parkingPlacements: Spot[]): Spot {
-    const selectedCell = parkingPlacements.find(spot => spot.x === coordinate.x && spot.y === coordinate.y);
+  public getSelectedCell(
+    coordinate: Coordinate,
+    parkingPlacements: Spot[]
+  ): Spot {
+    const selectedCell = parkingPlacements.find(
+      (spot) => spot.x === coordinate.x && spot.y === coordinate.y
+    );
     return selectedCell;
   }
 
   public getSelectedAreaSpotsByStatus(selectedArea: ParkingArea): void {
     const usedSpots = 1;
     const unusedSpots = 0;
-    const parkingAreaStatus: ParkingAreaStatus = { parkingId: 0, totalSpots: 0, usedSpots: 0, unusedSpots: 0 }
+    const parkingAreaStatus: ParkingAreaStatus = {
+      parkingId: '0',
+      totalSpots: 0,
+      usedSpots: 0,
+      unusedSpots: 0,
+    };
 
     parkingAreaStatus.parkingId = selectedArea.parking_entries_id;
     parkingAreaStatus.totalSpots = selectedArea.spots.length;
-    parkingAreaStatus.usedSpots = selectedArea.spots.filter(spot => spot.active === usedSpots).length;
-    parkingAreaStatus.unusedSpots = selectedArea.spots.filter(spot => spot.active === unusedSpots).length;
+
+    parkingAreaStatus.usedSpots = selectedArea.spots.filter(
+      (spot) => spot.active === usedSpots
+    ).length;
+    parkingAreaStatus.unusedSpots = selectedArea.spots.filter(
+      (spot) => spot.active === unusedSpots
+    ).length;
 
     this.updateParkingAreaStatus(parkingAreaStatus);
   }
 
-  public getSelectedParkingLevels(selectedParking: Parking): Observable<ParkingLevel[]> {
-    return this.parkingApiService.getSelectedParkingEntries(selectedParking.id).pipe(
-      map((result: HttpResponse) => {
-        const parking: HttpResponse = {};
-        parking.levels = result.entries;
-        return parking.levels;
-      }),
-      mergeMap((parkingLevels: ParkingLevel[]) => {
-        for (const level of parkingLevels) {
-          return this.parkingApiService.getSelectedParkingAreas(level.id).pipe(map((response: HttpResponse) => {
-            level.areas = response.areas;
-            return parkingLevels;
-          }))
-        }
-      }),
-      mergeMap((parkingLevels: ParkingLevel[]) => {
-        for (const level of parkingLevels) {
-          for (const area of level.areas) {
-            return this.parkingApiService.getAreaParkingSlots(area.id).pipe(map((response: HttpResponse) => {
-              area.spots = response.spots;
-              return parkingLevels;
-            }))
+  public getSelectedParkingLevels(
+    selectedParking: Parking
+  ): Observable<ParkingLevel[]> {
+    return this.parkingApiService
+      .getSelectedParkingEntries(selectedParking.id)
+      .pipe(
+        map((result: HttpResponse) => {
+          const parking: HttpResponse = {};
+          parking.levels = result.entries;
+          return parking.levels;
+        }),
+        mergeMap((parkingLevels: ParkingLevel[]) => {
+          for (const level of parkingLevels) {
+            return this.parkingApiService
+              .getSelectedParkingAreas(level.id)
+              .pipe(
+                map((response: HttpResponse) => {
+                  level.areas = response.areas;
+                  return parkingLevels;
+                })
+              );
           }
-        }
-      })
-    )
+        }),
+        mergeMap((parkingLevels: ParkingLevel[]) => {
+          for (const level of parkingLevels) {
+            for (const area of level.areas) {
+              return this.parkingApiService.getAreaParkingSlots(area.id).pipe(
+                map((response: HttpResponse) => {
+                  area.spots = response.spots;
+                  return parkingLevels;
+                })
+              );
+            }
+          }
+        })
+      );
   }
 }
-

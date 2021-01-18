@@ -10,12 +10,15 @@ import { UpdateLineSizeDirective } from '@app/shared/directive/update-line-size.
 import { ParkingService } from '@app/shared/services/parking.service';
 import { ParkingApiService } from '@app/shared/services/parking-api-service';
 import { ParkingSelectedSpotService } from './services/parking-selected-spot.service';
+import { CreateParkingAreaComponent } from './components/create-parking-area/create-parking-area.component';
+import { ParkingCreationService } from './services/parking-creation.service';
 
 @NgModule({
   declarations: [
     UpdateLineSizeDirective,
     SelectedSpotModalComponent,
-    SpinnerModalComponent
+    SpinnerModalComponent,
+    CreateParkingAreaComponent
   ],
   imports: [
     CommonModule,
@@ -25,12 +28,14 @@ import { ParkingSelectedSpotService } from './services/parking-selected-spot.ser
   exports: [
     UpdateLineSizeDirective,
     SelectedSpotModalComponent,
-    SpinnerModalComponent
+    SpinnerModalComponent,
+    CreateParkingAreaComponent
   ],
   providers: [
     ParkingService,
     ParkingSelectedSpotService,
     ParkingApiService,
+    ParkingCreationService,
   ]
 })
 export class SharedModule { }

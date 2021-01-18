@@ -9,6 +9,7 @@ import { HeaderComponent } from '@app/feature/header/header.component';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { SpinnerService } from './shared/services/spinner-service';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SpinnerService } from './shared/services/spinner-service';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    CoreModule,
   ],
   providers: [SpinnerService],
   bootstrap: [AppComponent]

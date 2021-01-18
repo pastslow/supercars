@@ -8,47 +8,50 @@ import { ParkingLevel } from '@app/shared/interfaces/parking-level.interface';
 import { ParkingAreaStatus } from '@app/shared/interfaces/parking-area-status.interface';
 
 export class ParkingServiceMock {
-  constructor() { };
+  constructor() {}
 
   public static getParking(): Parking {
-    const parkings =
-    {
-      id: 0,
+    const parkings = {
+      id: '0',
       name: 'Test1',
       address: 'Area test',
-      total_levels: 1,
-      total_spots: 1,
-      free_spots: 1,
-      used_spots: 0,
-      start_date: '',
-      end_date: '',
-      user_id: 1,
-      levels: [{
-        areas: [
-          {
-            id: 0,
-            name: 'Area 1',
-            size_y: 10,
-            size_x: 20,
-            parking_entries_id: 1,
-            spots: [{
-              id: 0,
-              y: 1,
-              x: 1,
-              orientation: 'clockwise-cell',
-              border: '',
-              active: 1,
-              indicator: 1,
-              parkingAreaId: 1
-            }],
-          }
-        ],
-        id: 0,
-        name: 'Parter',
-        parking_id: '',
-        status: '',
-      }]
-    }
+      totalLevels: 1,
+      totalSpots: 1,
+      freeSpots: 1,
+      usedSpots: 0,
+      startDate: '',
+      endDate: '',
+      userId: 1,
+      levels: [
+        {
+          areas: [
+            {
+              id: '0',
+              name: 'Area 1',
+              size_y: 10,
+              size_x: 20,
+              parking_entries_id: '1',
+              spots: [
+                {
+                  id: 0,
+                  y: 1,
+                  x: 1,
+                  orientation: 'clockwise-cell',
+                  border: '',
+                  active: 1,
+                  indicator: 1,
+                  parkingAreaId: '1',
+                },
+              ],
+            },
+          ],
+          id: '0',
+          name: 'Parter',
+          parking_id: '',
+          status: '',
+        },
+      ],
+    };
 
     return parkings;
   }
@@ -57,12 +60,12 @@ export class ParkingServiceMock {
     const parkingLevels = [
       {
         areas: null,
-        id: 0,
+        id: '0',
         name: 'Level 0',
         parking_id: 'Empty',
         status: '',
-      }
-    ]
+      },
+    ];
 
     return parkingLevels;
   }
@@ -71,18 +74,18 @@ export class ParkingServiceMock {
     const parkingData = {
       selectedArea: 'Area 1',
       selectedFloor: 'Parter',
-    }
+    };
 
     return parkingData;
   }
 
   public static getParkingAreaStatus(): ParkingAreaStatus {
     const parkingAreaStatus = {
-      parkingId: 0,
+      parkingId: '',
       totalSpots: 50,
       usedSpots: 3,
       unusedSpots: 47,
-    }
+    };
 
     return parkingAreaStatus;
   }
@@ -97,7 +100,7 @@ export class ParkingServiceMock {
         border: 'left',
         active: 1,
         indicator: 1,
-        parkingAreaId: 1
+        parkingAreaId: '1',
       },
       {
         x: 1,
@@ -107,7 +110,7 @@ export class ParkingServiceMock {
         border: 'left',
         active: 1,
         indicator: 1,
-        parkingAreaId: 1
+        parkingAreaId: '1',
       },
       {
         x: 2,
@@ -117,9 +120,9 @@ export class ParkingServiceMock {
         border: 'left',
         active: 1,
         indicator: 1,
-        parkingAreaId: 1
-      }
-    ]
+        parkingAreaId: '1',
+      },
+    ];
 
     return parkingPlacements;
   }
@@ -129,8 +132,8 @@ export class ParkingServiceMock {
       driverName: new FormControl('test'),
       carPlate: new FormControl('IS 22 TST'),
       phoneNumber: new FormControl('021 021 021'),
-      date: new FormControl('2020.08.22 10:00 am')
-    })
+      date: new FormControl('2020.08.22 10:00 am'),
+    });
 
     return formGroup;
   }
@@ -141,10 +144,10 @@ export class ParkingServiceMock {
       carPlate: 'IS 22 TST',
       phoneNumber: '021 021 021',
       date: '2020.08.22 10:00 am',
-      parkingSpotId: spotId
-    }
+      parkingSpotId: spotId,
+    };
 
-    return driver
+    return driver;
   }
 
   public static getSpotWithCustomOrientation(spotOrientation: string): Spot {
@@ -156,8 +159,8 @@ export class ParkingServiceMock {
       border: '',
       active: 1,
       indicator: 1,
-      parkingAreaId: 1
-    }
+      parkingAreaId: '1',
+    };
 
     return spot;
   }

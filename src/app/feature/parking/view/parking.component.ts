@@ -3,39 +3,27 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { Parking } from '@app/shared/interfaces/parking.interface';
-import { HttpResponse } from '@app/shared/interfaces/http-response.interface';
 import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
 
-import { ParkingApiService } from '@app/shared/services/parking-api-service';
-import { ParkingService } from '@app/shared/services/parking.service';
+import { ParkingFacadeService } from '@app/feature/parking/services/parking-facade-service.service';
 
 @Component({
   selector: 'app-parking',
   templateUrl: './parking.component.html',
-  styleUrls: ['./parking.component.scss']
+  styleUrls: ['./parking.component.scss'],
 })
 export class ParkingComponent implements OnInit, OnDestroy {
   public displayParkingZone: boolean;
-  public parkings: Parking;
-  public userId = 1;
+  public parkings: Parking[];
   public selectedParking: Parking;
   public parkingData: ParkingData;
 
   private unsubscribe$: Subject<void> = new Subject();
 
-  constructor(
-    private parkingApiService: ParkingApiService,
-    private parkingService: ParkingService,) { }
+  constructor(private parkingFacadeService: ParkingFacadeService) {}
 
   public ngOnInit(): void {
-    // 1 represents the userId
-    this.parkingApiService.getParkings(1).pipe(
-      takeUntil(this.unsubscribe$)
-    ).subscribe((response: HttpResponse) => {
-      if (response) {
-        this.parkings = response.parking;
-      }
-    })
+    this.getAllUserParkings();
   }
 
   public ngOnDestroy(): void {
@@ -50,11 +38,23 @@ export class ParkingComponent implements OnInit, OnDestroy {
   public getSelectedParking(parking: Parking): void {
     this.selectedParking = parking;
 
-    this.parkingService.getParkingData$().pipe(
-      takeUntil(this.unsubscribe$)
-    ).subscribe((parkingData: ParkingData) => {
-      this.displayParkingZone = true;
-      this.parkingData = parkingData;
-    });
+    this.parkingFacadeService
+      .getSelectedParking()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((parkingData: ParkingData) => {
+        this.displayParkingZone = true;
+        this.parkingData = parkingData;
+      });
+  }
+
+  private getAllUserParkings(): void {
+    this.parkingFacadeService
+      .getAllUserParkings()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((response: Parking[]) => {
+        if (response) {
+          this.parkings = response;
+        }
+      });
   }
 }

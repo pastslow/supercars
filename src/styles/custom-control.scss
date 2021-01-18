@@ -1,83 +1,102 @@
 $terrain-size: 36px;
 $border-size: 2px;
 
-$terrain: '/assets/img/bg/terrain.png';
-$car: '/assets/img/bg/car.png';
+$terrain: "/assets/img/bg/terrain.png";
+$car: "/assets/img/bg/car.png";
 
 .custom-card {
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    word-break: break-all;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  word-break: break-all;
 }
 
 .main-title {
-    font-weight: bold;
-    font-size: 15px;
-    margin-bottom: 10px;
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 10px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.main-text {
+  font-size: 12px;
+  margin: 0;
 }
 
 .subtitle {
-    color: $main-gray;
-    font-size: 12px;
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  color: $main-gray;
+  font-size: 12px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .status-container {
+  .cell-container {
+    padding: 0 5px;
+    margin-top: 10px;
+    background-color: $light-white;
+  }
+
+  .text-cell {
+    font-weight: bold;
+  }
+
+  .slots-data-container {
     .cell-container {
-        padding: 0 5px;
-        margin-top: 10px;
-        background-color: $light-white;
-    }
+      margin-right: 10px;
 
-    .text-cell {
-        font-weight: bold;
+      &:last-child {
+        margin-right: 0;
+      }
     }
-
-    .slots-data-container {
-        .cell-container {
-            margin-right: 10px;
-
-            &:last-child {
-                margin-right: 0;
-            }
-        }
-    }
+  }
 }
 
 .main-button {
-    max-width: 200px;
-    margin: 20px auto 0 auto;
-    border-radius: 5px;
-    cursor: pointer;
-    border: 1px solid $slate-gray;
-    color: $main-blue;
-    display: flex;
-    justify-content: center;
+  max-width: 200px;
+  margin: 20px auto 0 auto;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid $slate-gray;
+  color: $main-blue;
+  display: flex;
+  justify-content: center;
 
-    &.active {
-        color: $white;
-        background-color: $main-blue;
-
-        &:hover {
-            color: $white;
-            opacity: 1;
-            background-color: $main-blue;
-            border-color: $main-blue;
-        }
-    }
+  &:disabled {
+    background-color: $slate-gray !important;
+    opacity: 0.6;
 
     &:hover {
-        color: $white;
-        opacity: 0.8;
-        background-color: $light-blue;
-        border-color: $light-blue;
+      opacity: 0.6 !important;
     }
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &.active {
+    color: $white;
+    background-color: $main-blue;
+
+    &:hover {
+      color: $white;
+      opacity: 1;
+      background-color: $main-blue;
+      border-color: transparent;
+    }
+  }
+
+  &:hover {
+    border: 1px solid transparent;
+    color: $white;
+    opacity: 0.8;
+    background-color: $light-blue;
+    border-color: $light-blue;
+  }
 }

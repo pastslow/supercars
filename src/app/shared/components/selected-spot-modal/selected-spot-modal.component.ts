@@ -8,6 +8,7 @@ import { ParkingArea } from '@app/shared/interfaces/parking-area.interface';
 import { ParkingDriver } from '@app/shared/interfaces/parking-driver.interface';
 
 import { ParkingSelectedSpotService } from '@app/shared/services/parking-selected-spot.service';
+import { ParkingSlotStatus } from '@app/shared/enums/parking-slot-status.enum';
 
 @Component({
   selector: 'app-selected-spot-modal',
@@ -52,9 +53,9 @@ export class SelectedSpotModalComponent implements OnInit, OnDestroy, OnChanges 
   public changeSlotStatus(active: boolean): void {
     this.profileForm.markAsTouched();
 
-    const isSlotActive = active ? 1 : 0;
+    const isSlotActive = active ? ParkingSlotStatus.active : ParkingSlotStatus.inactive;
 
-    if (isSlotActive === 1 && !this.profileForm.valid) {
+    if (isSlotActive === ParkingSlotStatus.active && !this.profileForm.valid) {
       return;
     }
 
