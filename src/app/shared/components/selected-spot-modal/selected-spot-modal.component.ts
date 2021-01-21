@@ -1,4 +1,13 @@
-import { Component, OnInit, Input, OnDestroy, SimpleChanges, OnChanges, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  SimpleChanges,
+  OnChanges,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
@@ -6,19 +15,20 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Spot } from '@app/shared/interfaces/spot.interface';
 import { ParkingArea } from '@app/shared/interfaces/parking-area.interface';
 import { ParkingDriver } from '@app/shared/interfaces/parking-driver.interface';
+import { ParkingSlotStatus } from '@app/shared/enums/parking-slot-status.enum';
 
 import { ParkingSelectedSpotService } from '@app/shared/services/parking-selected-spot.service';
-import { ParkingSlotStatus } from '@app/shared/enums/parking-slot-status.enum';
 
 @Component({
   selector: 'app-selected-spot-modal',
   templateUrl: './selected-spot-modal.component.html',
-  styleUrls: ['./selected-spot-modal.component.scss']
+  styleUrls: ['./selected-spot-modal.component.scss'],
 })
-export class SelectedSpotModalComponent implements OnInit, OnDestroy, OnChanges {
+export class SelectedSpotModalComponent
+  implements OnInit, OnDestroy, OnChanges {
   @Input() public selectedSpot: Spot;
-  @Input() public selectedArea: ParkingArea;
   @Input() public driver: ParkingDriver;
+  @Input() public selectedParkingArea: ParkingArea;
   @ViewChild('close') private closeButton: ElementRef;
 
   public profileForm: FormGroup = new FormGroup({
@@ -32,10 +42,9 @@ export class SelectedSpotModalComponent implements OnInit, OnDestroy, OnChanges 
 
   private unsubscribe$: Subject<void> = new Subject();
 
-  constructor(private parkingSelectedSpotService: ParkingSelectedSpotService) { }
+  constructor(private parkingSelectedSpotService: ParkingSelectedSpotService) {}
 
-  public ngOnInit(): void {
-  }
+  public ngOnInit(): void {}
 
   public ngOnDestroy(): void {
     this.unsubscribe$.next();
@@ -53,18 +62,21 @@ export class SelectedSpotModalComponent implements OnInit, OnDestroy, OnChanges 
   public changeSlotStatus(active: boolean): void {
     this.profileForm.markAsTouched();
 
-    const isSlotActive = active ? ParkingSlotStatus.active : ParkingSlotStatus.inactive;
+    const isSlotActive = active
+      ? ParkingSlotStatus.active
+      : ParkingSlotStatus.inactive;
 
     if (isSlotActive === ParkingSlotStatus.active && !this.profileForm.valid) {
       return;
     }
 
-    this.parkingSelectedSpotService.changeSlotStatus(this.selectedSpot, isSlotActive, this.selectedArea, this.profileForm).pipe(
-      takeUntil(this.unsubscribe$)
-    ).subscribe(() => {
-      this.resetProfileForm();
-      this.closeButton.nativeElement.click();
-    })
+    this.parkingSelectedSpotService
+      .changeSlotStatus(this.selectedSpot, isSlotActive, this.profileForm)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        this.resetProfileForm();
+        this.closeButton.nativeElement.click();
+      });
   }
 
   public resetProfileForm(): void {
@@ -72,7 +84,10 @@ export class SelectedSpotModalComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   public displayFormControlError(formControlName: string): boolean {
-    return this.parkingSelectedSpotService.displayFormControlError(this.profileForm, formControlName);
+    return this.parkingSelectedSpotService.displayFormControlError(
+      this.profileForm,
+      formControlName
+    );
   }
 
   private updateDriverCheckInTime(): void {
@@ -81,6 +96,8 @@ export class SelectedSpotModalComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   private updateDriverTimeSpend(): void {
-    this.driverTimeSpend = this.parkingSelectedSpotService.getDriverTimeSpend(this.driver);
+    this.driverTimeSpend = this.parkingSelectedSpotService.getDriverTimeSpend(
+      this.driver
+    );
   }
 }

@@ -199,7 +199,7 @@ describe('ParkingSelectedSpotService', () => {
         });
     });
 
-    it("should update 'active' property from selectedSpot with isSlotActive value", () => {
+    it('should update *active* property from selectedSpot with isSlotActive value', () => {
       const parkingSpots = ParkingServiceMock.getParkingPlacements();
       const selectedSpot = parkingSpots[0];
       selectedSpot.active = 1;

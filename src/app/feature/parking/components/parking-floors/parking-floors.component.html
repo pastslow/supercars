@@ -1,21 +1,15 @@
 <div class="parking-floors custom-card">
-  <div class="main-title">
-    Parking floors
-  </div>
+  <div class="main-title">Parking floors</div>
 
   <div class="parking-container">
-    <div class="main-button">
-      Add level above
-    </div>
+    <div class="main-button">Add level above</div>
 
-    <div *ngFor="let level of parking.levels">
-      <div [class.active]="parkingData.selectedFloor === level.name" class="main-button">
-        {{level.name}}
+    <div *ngFor="let level of selectedParking.levels; index as i">
+      <div [class.active]="i === selectedFloorNumber" class="main-button">
+        {{ level.name }}
       </div>
     </div>
 
-    <div class="main-button">
-      Add level below
-    </div>
+    <div class="main-button">Add level below</div>
   </div>
 </div>

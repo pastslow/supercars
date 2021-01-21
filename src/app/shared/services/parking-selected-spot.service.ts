@@ -1,55 +1,36 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { mergeMap, map } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import * as moment from 'moment';
 
 import { SharedConstants } from '@app/shared/constants/shared-constants';
 import { Spot } from '@app/shared/interfaces/spot.interface';
-import { ParkingArea } from '@app/shared/interfaces/parking-area.interface';
 import { ParkingDriver } from '@app/shared/interfaces/parking-driver.interface';
 
-import { ParkingApiService } from '@app/shared/services/parking-api-service';
-import { ParkingService } from '@app/shared/services/parking.service';
-import { ParkingSlotStatus } from '../enums/parking-slot-status.enum';
+import { ParkingFacadeService } from '@app/feature/parking/services/parking-facade-service.service';
+import { ParkingSlotStatus } from '@app/shared/enums/parking-slot-status.enum';
 
 @Injectable()
 export class ParkingSelectedSpotService {
-  constructor(
-    private parkingApiService: ParkingApiService,
-    private parkingService: ParkingService
-  ) {}
+  constructor(private parkingFacadeService: ParkingFacadeService) {}
 
   public changeSlotStatus(
     selectedSpot: Spot,
     isSlotActive: number,
-    selectedArea: ParkingArea,
     formGroupName: FormGroup
   ): Observable<void> {
-    return this.parkingApiService
-      .changeSlotStatus(selectedSpot.id, isSlotActive)
-      .pipe(
-        mergeMap(() => {
-          if (isSlotActive === ParkingSlotStatus.active) {
-            const driver = this.getDriverInfo(formGroupName, selectedSpot);
-            return this.parkingApiService.addDriverToSelectedSpot(driver);
-          }
+    let driver: ParkingDriver;
 
-          return of(true);
-        }),
-        mergeMap(() => {
-          if (isSlotActive === ParkingSlotStatus.inactive) {
-            return this.parkingApiService.deleteDriver(selectedSpot.id);
-          }
+    if (isSlotActive === ParkingSlotStatus.active) {
+      driver = this.getDriverInfo(formGroupName, selectedSpot);
+    }
 
-          return of(true);
-        }),
-        map(() => {
-          selectedSpot.active = isSlotActive;
-          this.parkingService.getSelectedAreaSpotsByStatus(selectedArea);
-        })
-      );
+    return this.parkingFacadeService.changeSlotStatus(
+      selectedSpot,
+      isSlotActive,
+      driver
+    );
   }
 
   public displayFormControlError(
@@ -98,7 +79,7 @@ export class ParkingSelectedSpotService {
       phoneNumber: formGroupName.controls.phoneNumber.value,
       date: formGroupName.controls.date.value,
       parkingSpotId: selectedSpot.id,
-    };
+    } as ParkingDriver;
 
     return driver;
   }

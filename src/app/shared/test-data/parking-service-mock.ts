@@ -3,9 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Spot } from '@app/shared/interfaces/spot.interface';
 import { ParkingDriver } from '@app/shared/interfaces/parking-driver.interface';
 import { Parking } from '@app/shared/interfaces/parking.interface';
-import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
 import { ParkingLevel } from '@app/shared/interfaces/parking-level.interface';
-import { ParkingAreaStatus } from '@app/shared/interfaces/parking-area-status.interface';
 
 export class ParkingServiceMock {
   constructor() {}
@@ -24,27 +22,28 @@ export class ParkingServiceMock {
       userId: 1,
       levels: [
         {
-          areas: [
-            {
-              id: '0',
-              name: 'Area 1',
-              size_y: 10,
-              size_x: 20,
-              parking_entries_id: '1',
-              spots: [
-                {
-                  id: 0,
-                  y: 1,
-                  x: 1,
-                  orientation: 'clockwise-cell',
-                  border: '',
-                  active: 1,
-                  indicator: 1,
-                  parkingAreaId: '1',
-                },
-              ],
-            },
-          ],
+          areas: {
+            id: '0',
+            name: 'Area 1',
+            sizeY: 10,
+            sizeX: 20,
+            parkingEntriesId: '1',
+            totalSpots: 52,
+            freeSpots: 52,
+            usedSpots: 0,
+            spots: [
+              {
+                id: 0,
+                y: 1,
+                x: 1,
+                orientation: 'clockwise-cell',
+                border: '',
+                active: 1,
+                indicator: 1,
+                parkingAreaId: '1',
+              },
+            ],
+          },
           id: '0',
           name: 'Parter',
           parking_id: '',
@@ -68,26 +67,6 @@ export class ParkingServiceMock {
     ];
 
     return parkingLevels;
-  }
-
-  public static getParkingData(): ParkingData {
-    const parkingData = {
-      selectedArea: 'Area 1',
-      selectedFloor: 'Parter',
-    };
-
-    return parkingData;
-  }
-
-  public static getParkingAreaStatus(): ParkingAreaStatus {
-    const parkingAreaStatus = {
-      parkingId: '',
-      totalSpots: 50,
-      usedSpots: 3,
-      unusedSpots: 47,
-    };
-
-    return parkingAreaStatus;
   }
 
   public static getParkingPlacements(): Spot[] {

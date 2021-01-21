@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
+import { Parking } from '@app/shared/interfaces/parking.interface';
 
 @Component({
   selector: 'app-parking-status-header',
@@ -8,7 +8,7 @@ import { ParkingData } from '@app/shared/interfaces/parking-data.interface';
   styleUrls: ['./parking-status-header.component.scss'],
 })
 export class ParkingStatusHeaderComponent implements OnInit {
-  @Input() public parking: ParkingData;
+  @Input() public selectedParking: Parking;
 
   constructor() {}
 

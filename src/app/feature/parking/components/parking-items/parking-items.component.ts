@@ -16,6 +16,7 @@ import { ParkingLevel } from '@app/shared/interfaces/parking-level.interface';
 
 import { ParkingService } from '@app/shared/services/parking.service';
 import { SpinnerService } from '@app/shared/services/spinner-service';
+import { ParkingFacadeService } from '@app/feature/parking/services/parking-facade-service.service';
 
 @Component({
   selector: 'app-parking-items',
@@ -24,14 +25,13 @@ import { SpinnerService } from '@app/shared/services/spinner-service';
 })
 export class ParkingItemsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public parkings: Parking[];
-  @Output() public getSelectedParking = new EventEmitter();
 
   public hasAnyParkingsCreated: boolean;
 
   private unsubscribe$: Subject<void> = new Subject();
 
   constructor(
-    private parkingService: ParkingService,
+    private parkingFacadeService: ParkingFacadeService,
     private spinnerService: SpinnerService
   ) {}
 
@@ -45,7 +45,7 @@ export class ParkingItemsComponent implements OnInit, OnDestroy, OnChanges {
 
   public editSelectedParking(selectedParking: Parking): void {
     this.spinnerService.makeSpinnerVisible();
-    this.parkingService
+    this.parkingFacadeService
       .getSelectedParkingLevels(selectedParking)
       .pipe(
         takeUntil(this.unsubscribe$),
@@ -55,7 +55,8 @@ export class ParkingItemsComponent implements OnInit, OnDestroy, OnChanges {
       )
       .subscribe((parkingLevels: ParkingLevel[]) => {
         selectedParking.levels = parkingLevels;
-        this.getSelectedParking.emit(selectedParking);
+        this.parkingFacadeService.updateParkingState(selectedParking);
+        this.parkingFacadeService.updateSelectedParkingLevelIndex(0);
         this.spinnerService.hideSpinner();
       });
   }
