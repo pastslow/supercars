@@ -11,6 +11,7 @@ import { ParkingItemsComponent } from '@app/feature/parking/components/parking-i
 import { SharedModule } from '@app/shared/shared.module';
 import { ParkingRoutingModule } from './parking-routing.module';
 import { ParkingFacadeService } from '@app/feature/parking/services/parking-facade-service.service';
+import { ParkingMapperService } from '@app/feature/parking/services/parking-mapper.service';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,6 @@ import { ParkingFacadeService } from '@app/feature/parking/services/parking-faca
   ],
   imports: [CommonModule, ParkingRoutingModule, SharedModule],
   exports: [ParkingComponent],
-  providers: [ParkingFacadeService],
+  providers: [ParkingFacadeService, ParkingMapperService],
 })
 export class ParkingModule {}

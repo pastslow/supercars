@@ -10,4 +10,5 @@ export interface ParkingArea {
   freeSpots: number;
   usedSpots: number;
   spots: Spot[];
+  parkingId: string;
 }

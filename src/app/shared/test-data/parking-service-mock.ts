@@ -22,34 +22,39 @@ export class ParkingServiceMock {
       userId: 1,
       levels: [
         {
-          areas: {
-            id: '0',
-            name: 'Area 1',
-            sizeY: 10,
-            sizeX: 20,
-            parkingEntriesId: '1',
-            totalSpots: 52,
-            freeSpots: 52,
-            usedSpots: 0,
-            spots: [
-              {
-                id: 0,
-                y: 1,
-                x: 1,
-                orientation: 'clockwise-cell',
-                border: '',
-                active: 1,
-                indicator: 1,
-                parkingAreaId: '1',
-              },
-            ],
-          },
+          areas: [
+            {
+              id: '0',
+              name: 'Area 1',
+              sizeY: 10,
+              sizeX: 20,
+              parkingEntriesId: '1',
+              totalSpots: 52,
+              freeSpots: 52,
+              usedSpots: 0,
+              parkingId: '',
+              spots: [
+                {
+                  id: 0,
+                  y: 1,
+                  x: 1,
+                  orientation: 'clockwise-cell',
+                  border: '',
+                  active: 1,
+                  indicator: 1,
+                  parkingAreaId: '1',
+                  parkingId: '',
+                },
+              ],
+            },
+          ],
           id: '0',
           name: 'Parter',
-          parking_id: '',
+          parkingId: '',
           status: '',
         },
       ],
+      parkingType: '',
     };
 
     return parkings;
@@ -61,7 +66,7 @@ export class ParkingServiceMock {
         areas: null,
         id: '0',
         name: 'Level 0',
-        parking_id: 'Empty',
+        parkingId: 'Empty',
         status: '',
       },
     ];
@@ -80,6 +85,7 @@ export class ParkingServiceMock {
         active: 1,
         indicator: 1,
         parkingAreaId: '1',
+        parkingId: '',
       },
       {
         x: 1,
@@ -90,6 +96,7 @@ export class ParkingServiceMock {
         active: 1,
         indicator: 1,
         parkingAreaId: '1',
+        parkingId: '',
       },
       {
         x: 2,
@@ -100,6 +107,7 @@ export class ParkingServiceMock {
         active: 1,
         indicator: 1,
         parkingAreaId: '1',
+        parkingId: '',
       },
     ];
 
@@ -139,6 +147,7 @@ export class ParkingServiceMock {
       active: 1,
       indicator: 1,
       parkingAreaId: '1',
+      parkingId: '',
     };
 
     return spot;

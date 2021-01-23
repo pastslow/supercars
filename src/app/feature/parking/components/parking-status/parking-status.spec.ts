@@ -25,9 +25,7 @@ describe('ParkingStatusComponent', () => {
         },
         {
           provide: ParkingApiService,
-          useValue: jasmine.createSpyObj('ParkingApiService', [
-            'updateParkingSpotsNumbers',
-          ]),
+          useValue: jasmine.createSpyObj('ParkingApiService', []),
         },
       ],
     }).compileComponents();

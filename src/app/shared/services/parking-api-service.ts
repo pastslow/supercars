@@ -24,18 +24,8 @@ export class ParkingApiService {
     return this.http.get(`http://localhost:3000/api/parking/${userId}`);
   }
 
-  public updateParkingSpotsNumbers(
-    parkingId: string,
-    totalSpots: number,
-    unusedSpots: number,
-    usedSpots: number
-  ): Observable<any> {
-    return this.http.post('http://localhost:3000/api/parking/update', {
-      parkingId,
-      totalSpots,
-      unusedSpots,
-      usedSpots,
-    });
+  public deleteSelectedParking(id): Observable<any> {
+    return this.http.post(`http://localhost:3000/api/parking/delete`, id);
   }
 
   public addDriverToSelectedSpot(driver: any): Observable<any> {

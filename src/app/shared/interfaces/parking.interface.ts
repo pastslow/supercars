@@ -10,4 +10,5 @@ export interface Parking {
   startDate: string;
   endDate: string;
   levels: ParkingLevel[];
+  parkingType: string;
 }

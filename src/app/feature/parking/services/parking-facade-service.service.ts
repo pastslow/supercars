@@ -107,6 +107,12 @@ export class ParkingFacadeService {
       );
   }
 
+  public deleteSelectedParking(id: string): Observable<any> {
+    return this.parkingApiService.deleteSelectedParking({
+      parkingId: id,
+    });
+  }
+
   private addDriverToSelectedSpot(slotDriver): Observable<any> {
     let parking = this.parkingService.getParkingStateValue();
     let parkingAreaStatus = this.parkingService.getParkingAreaStateValue();

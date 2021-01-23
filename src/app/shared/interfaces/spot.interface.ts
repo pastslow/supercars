@@ -7,4 +7,5 @@ export interface Spot {
   active: number;
   indicator: number;
   parkingAreaId: string;
+  parkingId: string;
 }

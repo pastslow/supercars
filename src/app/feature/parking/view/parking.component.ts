@@ -17,6 +17,8 @@ export class ParkingComponent implements OnInit, OnDestroy {
   public parkings: Parking[];
   public selectedParking: Parking;
   public selectedParkingLevelIndex = 0;
+  public selectedParkingAreaIndex = 0;
+
   public selectedParkingArea: ParkingArea;
 
   private unsubscribe$: Subject<void> = new Subject();
@@ -38,18 +40,6 @@ export class ParkingComponent implements OnInit, OnDestroy {
     this.getAllUserParkings();
   }
 
-  private getAllUserParkings(): void {
-    this.parkingFacadeService
-      .getAllUserParkings()
-      .pipe(takeUntil(this.unsubscribe$), take(1))
-      .subscribe((response: Parking[]) => {
-        if (response) {
-          console.log('bbb');
-          this.parkings = response;
-        }
-      });
-  }
-
   private listenToModelChanges(): void {
     this.getAllUserParkings();
 
@@ -65,7 +55,7 @@ export class ParkingComponent implements OnInit, OnDestroy {
           this.selectedParking = parking;
           this.selectedParkingArea = this.selectedParking.levels[
             this.selectedParkingLevelIndex
-          ].areas;
+          ].areas[this.selectedParkingAreaIndex];
 
           this.displayParkingZone = true;
           this.parkingFacadeService.updateParkingAreaState(
@@ -74,5 +64,16 @@ export class ParkingComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+  }
+
+  private getAllUserParkings(): void {
+    this.parkingFacadeService
+      .getAllUserParkings()
+      .pipe(takeUntil(this.unsubscribe$), take(1))
+      .subscribe((response: Parking[]) => {
+        if (response) {
+          this.parkings = response;
+        }
+      });
   }
 }

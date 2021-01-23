@@ -38,7 +38,7 @@
         <div class="image-container">
           <img
             class="parking-image"
-            src="assets/img/bg/parking_lot.png"
+            [src]="'assets/img/bg/' + parking.parkingType + '.png'"
             alt=""
           />
         </div>
@@ -77,7 +77,12 @@
             >
               Edit
             </div>
-            <div class="col-5 main-button">Delete</div>
+            <div
+              (click)="deleteSelectedParking(parking)"
+              class="col-5 main-button"
+            >
+              Delete
+            </div>
           </div>
         </div>
       </div>

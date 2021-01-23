@@ -18,6 +18,7 @@ import { ParkingApiService } from '@app/shared/services/parking-api-service';
 export class TerrainComponent implements OnInit, OnDestroy {
   @Input() public parking: Parking;
   @Input() selectedParkingLevelIndex: number;
+  @Input() selectedParkingAreaIndex: number;
 
   public terrainSizeRow: Array<number>;
   public terrainSizeCol: Array<number>;
@@ -92,7 +93,8 @@ export class TerrainComponent implements OnInit, OnDestroy {
 
   public updateSelectedParking(): void {
     const parkingFloor = this.parking.levels[this.selectedParkingLevelIndex];
-    this.selectedParkingArea = parkingFloor.areas;
+    this.selectedParkingArea =
+      parkingFloor.areas[this.selectedParkingAreaIndex];
     this.terrainSizeRow = new Array(this.selectedParkingArea.sizeY);
     this.terrainSizeCol = new Array(this.selectedParkingArea.sizeX);
     this.parkingPlacements = this.selectedParkingArea.spots;

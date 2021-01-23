@@ -61,6 +61,19 @@ export class ParkingItemsComponent implements OnInit, OnDestroy, OnChanges {
       });
   }
 
+  public deleteSelectedParking(selectedParking: Parking): void {
+    this.spinnerService.makeSpinnerVisible();
+    this.parkingFacadeService
+      .deleteSelectedParking(selectedParking.id)
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        finalize(() => {
+          this.spinnerService.hideSpinner();
+        })
+      )
+      .subscribe();
+  }
+
   public ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
