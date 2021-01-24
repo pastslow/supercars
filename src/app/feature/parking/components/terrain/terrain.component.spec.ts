@@ -3,11 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { TerrainComponent } from '@app/feature/parking/components/terrain/terrain.component';
-import { UpdateLineSizeDirective } from '@app/shared/directive/update-line-size.directive';
+import { UpdateLineSizeDirective } from '@app/feature/parking/directives/update-line-size.directive';
 
-import { ParkingApiService } from '@app/shared/services/parking-api-service';
-import { ParkingService } from '@app/shared/services/parking.service';
-import { ParkingServiceMock } from '@app/shared/test-data/parking-service-mock';
+import { ParkingApiService } from '@app/feature/parking/services/parking-api-service';
+import { ParkingService } from '@app/feature/parking/services/parking.service';
+import { ParkingServiceMock } from '@app/feature/parking/test-data/parking-service-mock';
 
 describe('TerrainComponent', () => {
   let component: TerrainComponent;

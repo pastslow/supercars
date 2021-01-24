@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Parking } from '@app/shared/interfaces/parking.interface';
+import { Parking } from '@app/feature/parking/interfaces/parking.interface';
 
 @Component({
   selector: 'app-parking-floors',
@@ -9,7 +9,7 @@ import { Parking } from '@app/shared/interfaces/parking.interface';
 })
 export class ParkingFloorsComponent implements OnInit {
   @Input() public selectedParking: Parking;
-  public selectedFloorNumber = 0;
+  @Input() selectedParkingLevelIndex: number;
 
   constructor() {}
 

@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Parking } from '@app/shared/interfaces/parking.interface';
-
+import { Parking } from '@app/feature/parking/interfaces/parking.interface';
 @Component({
   selector: 'app-parking-status-header',
   templateUrl: './parking-status-header.component.html',

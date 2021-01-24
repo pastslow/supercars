@@ -1,0 +1,55 @@
+.parking__image {
+  background-size: contain;
+  background-color: rgb(190, 191, 193);
+  background-position: center;
+  height: 240px;
+  width: 210px;
+}
+
+.modal-header {
+  .close {
+    font-size: 30px;
+    padding: 15px;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+
+.modal-body {
+  .parking-model-container {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .main-title {
+    margin-bottom: 5px;
+  }
+
+  .subtitle {
+    margin-bottom: 15px;
+  }
+
+  .main-button {
+    background-color: rgb(123 191 43);
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+
+  .title {
+    font-size: 14px;
+    margin: 0;
+    width: 120px;
+    text-align: center;
+  }
+
+  .main-button {
+    padding: 0 20px;
+    margin: 0 10px;
+  }
+}

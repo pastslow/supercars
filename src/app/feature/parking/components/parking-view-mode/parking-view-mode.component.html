@@ -1,0 +1,15 @@
+<div class="parking-status custom-card">
+  <div class="main-title">Parking Mode</div>
+
+  <div class="parking-container">
+    <ng-container *ngFor="let button of parkingViewModes; index as i">
+      <div
+        (click)="changeParkingViewMode()"
+        [class.active]="i === parkingViewMode"
+        class="main-button"
+      >
+        {{ button.title }}
+      </div>
+    </ng-container>
+  </div>
+</div>

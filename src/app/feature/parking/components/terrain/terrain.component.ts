@@ -2,13 +2,14 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 
-import { Spot } from '@app/shared/interfaces/spot.interface';
-import { Parking } from '@app/shared/interfaces/parking.interface';
-import { ParkingArea } from '@app/shared/interfaces/parking-area.interface';
-import { ParkingDriver } from '@app/shared/interfaces/parking-driver.interface';
+import { Spot } from '@app/feature/parking/interfaces/spot.interface';
+import { Parking } from '@app/feature/parking/interfaces/parking.interface';
+import { ParkingArea } from '@app/feature/parking/interfaces/parking-area.interface';
+import { ParkingDriver } from '@app/feature/parking/interfaces/parking-driver.interface';
 
-import { ParkingService } from '@app/shared/services/parking.service';
-import { ParkingApiService } from '@app/shared/services/parking-api-service';
+import { ParkingService } from '@app/feature/parking/services/parking.service';
+import { ParkingApiService } from '@app/feature/parking/services/parking-api-service';
+import { SlotModel } from '@app/feature/parking/interfaces/slot-model.interface';
 
 @Component({
   selector: 'app-terrain',
@@ -17,8 +18,10 @@ import { ParkingApiService } from '@app/shared/services/parking-api-service';
 })
 export class TerrainComponent implements OnInit, OnDestroy {
   @Input() public parking: Parking;
-  @Input() selectedParkingLevelIndex: number;
-  @Input() selectedParkingAreaIndex: number;
+  @Input() public selectedParkingLevelIndex: number;
+  @Input() public selectedParkingAreaIndex: number;
+  @Input() public parkingViewMode: number;
+  @Input() public selectedSlotModel: SlotModel;
 
   public terrainSizeRow: Array<number>;
   public terrainSizeCol: Array<number>;

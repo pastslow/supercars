@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ParkingComponent } from '@app/feature/parking/view/parking.component';
+import { ParkingContainerComponent } from '@app/feature/parking/parking-container/parking-container.component';
 
 const routes: Routes = [
   {
     path: 'parking',
-    component: ParkingComponent,
-  }
+    component: ParkingContainerComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ParkingRoutingModule { }
+export class ParkingRoutingModule {}

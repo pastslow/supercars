@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SessionService } from '@app/core/services/session.service';
 
-import { SpinnerService } from '@app/shared/services/spinner-service';
+import { SpinnerService } from '@app/core/services/spinner-service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

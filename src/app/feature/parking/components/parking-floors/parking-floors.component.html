@@ -5,7 +5,7 @@
     <div class="main-button">Add level above</div>
 
     <div *ngFor="let level of selectedParking.levels; index as i">
-      <div [class.active]="i === selectedFloorNumber" class="main-button">
+      <div [class.active]="i === selectedParkingLevelIndex" class="main-button">
         {{ level.name }}
       </div>
     </div>

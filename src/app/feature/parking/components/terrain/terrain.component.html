@@ -11,9 +11,12 @@
       id="y{{ i }}x{{ j }}"
       #cell
       appUpdateLineSize
+      appPreviewSlotPlacement
       [class.vertical-line]="getSelectedCell(i, j)"
       *ngFor="let col of terrainSizeCol; index as j"
       class="terrain-col"
+      [selectedSlotModel]="selectedSlotModel"
+      [parkingViewMode]="parkingViewMode"
       [parkingPlacements]="parkingPlacements"
       [terrain]="terrain"
       [rowNumber]="i"

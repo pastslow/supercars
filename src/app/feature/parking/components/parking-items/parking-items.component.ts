@@ -2,38 +2,32 @@ import {
   Component,
   OnInit,
   Input,
-  Output,
-  EventEmitter,
-  OnDestroy,
   SimpleChanges,
   OnChanges,
+  Output,
+  EventEmitter,
 } from '@angular/core';
-import { takeUntil, finalize } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
-import { Parking } from '@app/shared/interfaces/parking.interface';
-import { ParkingLevel } from '@app/shared/interfaces/parking-level.interface';
-
-import { ParkingService } from '@app/shared/services/parking.service';
-import { SpinnerService } from '@app/shared/services/spinner-service';
-import { ParkingFacadeService } from '@app/feature/parking/services/parking-facade-service.service';
+import { Parking } from '@app/feature/parking/interfaces/parking.interface';
 
 @Component({
   selector: 'app-parking-items',
   templateUrl: './parking-items.component.html',
   styleUrls: ['./parking-items.component.scss'],
 })
-export class ParkingItemsComponent implements OnInit, OnDestroy, OnChanges {
+export class ParkingItemsComponent implements OnInit, OnChanges {
   @Input() public parkings: Parking[];
+  @Output()
+  public editSelectedParking: EventEmitter<Parking> = new EventEmitter();
+  @Output()
+  public deleteSelectedParking: EventEmitter<Parking> = new EventEmitter();
+  @Output()
+  public changeParkingModelIndex: EventEmitter<number> = new EventEmitter();
 
+  public selectedParking: Parking;
   public hasAnyParkingsCreated: boolean;
 
-  private unsubscribe$: Subject<void> = new Subject();
-
-  constructor(
-    private parkingFacadeService: ParkingFacadeService,
-    private spinnerService: SpinnerService
-  ) {}
+  constructor() {}
 
   public ngOnInit(): void {}
 
@@ -43,40 +37,20 @@ export class ParkingItemsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  public editSelectedParking(selectedParking: Parking): void {
-    this.spinnerService.makeSpinnerVisible();
-    this.parkingFacadeService
-      .getSelectedParkingLevels(selectedParking)
-      .pipe(
-        takeUntil(this.unsubscribe$),
-        finalize(() => {
-          this.spinnerService.hideSpinner();
-        })
-      )
-      .subscribe((parkingLevels: ParkingLevel[]) => {
-        selectedParking.levels = parkingLevels;
-        this.parkingFacadeService.updateParkingState(selectedParking);
-        this.parkingFacadeService.updateSelectedParkingLevelIndex(0);
-        this.spinnerService.hideSpinner();
-      });
+  public changeSelectedParking(parking: Parking): void {
+    this.selectedParking = parking;
   }
 
-  public deleteSelectedParking(selectedParking: Parking): void {
-    this.spinnerService.makeSpinnerVisible();
-    this.parkingFacadeService
-      .deleteSelectedParking(selectedParking.id)
-      .pipe(
-        takeUntil(this.unsubscribe$),
-        finalize(() => {
-          this.spinnerService.hideSpinner();
-        })
-      )
-      .subscribe();
+  public editParking(selectedParking: Parking): void {
+    this.editSelectedParking.next(selectedParking);
   }
 
-  public ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+  public deleteParking(): void {
+    this.deleteSelectedParking.next(this.selectedParking);
+  }
+
+  public createParking(selectedParkingModelIndex: number): void {
+    this.changeParkingModelIndex.next(selectedParkingModelIndex);
   }
 
   private displayCreateParking(): void {

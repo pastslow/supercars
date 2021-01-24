@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
 
-import { Parking } from '@app/shared/interfaces/parking.interface';
-import { ParkingLevel } from '@app/shared/interfaces/parking-level.interface';
-import { ParkingArea } from '@app/shared/interfaces/parking-area.interface';
-import { Spot } from '@app/shared/interfaces/spot.interface';
-import { ParkingSlotStatus } from '@app/shared/enums/parking-slot-status.enum';
-import { ParkingDriver } from '@app/shared/interfaces/parking-driver.interface';
+import { Parking } from '@app/feature/parking/interfaces/parking.interface';
+import { ParkingLevel } from '@app/feature/parking/interfaces/parking-level.interface';
+import { ParkingArea } from '@app/feature/parking/interfaces/parking-area.interface';
+import { Spot } from '@app/feature/parking/interfaces/spot.interface';
+import { ParkingSlotStatus } from '@app/feature/parking/enums/parking-slot-status.enum';
+import { ParkingDriver } from '@app/feature/parking/interfaces/parking-driver.interface';
 
-import { ParkingApiService } from '@app/shared/services/parking-api-service';
+import { ParkingApiService } from '@app/feature/parking/services/parking-api-service';
 import { SessionService } from '@app/core/services/session.service';
-import { ParkingService } from '@app/shared/services/parking.service';
+import { ParkingService } from '@app/feature/parking/services/parking.service';
 
 @Injectable()
 export class ParkingFacadeService {
@@ -23,6 +23,10 @@ export class ParkingFacadeService {
 
   public getParkingState$(): Observable<Parking> {
     return this.parkingService.getParkingState$();
+  }
+
+  public getParkingStateValue(): Parking {
+    return this.parkingService.getParkingStateValue();
   }
 
   public updateParkingState(parking: Parking): void {
@@ -83,7 +87,7 @@ export class ParkingFacadeService {
     selectedSpot: Spot,
     isSlotActive: number,
     driver: ParkingDriver
-  ): Observable<void> {
+  ): Observable<boolean> {
     return this.parkingApiService
       .changeSlotStatus(selectedSpot.id, isSlotActive)
       .pipe(
@@ -101,7 +105,7 @@ export class ParkingFacadeService {
 
           return of(true);
         }),
-        map(() => {
+        tap(() => {
           selectedSpot.active = isSlotActive;
         })
       );
@@ -113,8 +117,15 @@ export class ParkingFacadeService {
     });
   }
 
+  public createParking(parking: Parking): Observable<any> {
+    const userId = this.sessionService.getUserIdValue();
+    parking['userId'] = userId;
+
+    return this.parkingApiService.createParking(parking);
+  }
+
   private addDriverToSelectedSpot(slotDriver): Observable<any> {
-    let parking = this.parkingService.getParkingStateValue();
+    let parking = this.getParkingStateValue();
     let parkingAreaStatus = this.parkingService.getParkingAreaStateValue();
     parking = this.calculateParkingSpotsStatusAtCheckIn(parking);
     parkingAreaStatus = this.calculateParkingSpotsStatusAtCheckIn(
@@ -131,7 +142,7 @@ export class ParkingFacadeService {
   }
 
   private removeDriverFromSelectedSpot(selectedSpotId): Observable<any> {
-    let parking = this.parkingService.getParkingStateValue();
+    let parking = this.getParkingStateValue();
     let parkingAreaStatus = this.parkingService.getParkingAreaStateValue();
     parking = this.calculateParkingSpotsStatusAtCheckOut(parking);
     parkingAreaStatus = this.calculateParkingSpotsStatusAtCheckOut(
@@ -147,7 +158,7 @@ export class ParkingFacadeService {
     return this.parkingApiService.deleteDriver(slotInfo);
   }
 
-  private calculateParkingSpotsStatusAtCheckIn(parkingStatus) {
+  private calculateParkingSpotsStatusAtCheckIn(parkingStatus): any {
     if (parkingStatus.freeSpots - 1 < 0) {
       parkingStatus.freeSpots = 0;
     } else {
@@ -159,7 +170,7 @@ export class ParkingFacadeService {
     return parkingStatus;
   }
 
-  private calculateParkingSpotsStatusAtCheckOut(parkingStatus) {
+  private calculateParkingSpotsStatusAtCheckOut(parkingStatus): any {
     parkingStatus.freeSpots++;
     parkingStatus.usedSpots--;
 

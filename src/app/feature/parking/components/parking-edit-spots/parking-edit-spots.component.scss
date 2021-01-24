@@ -1,0 +1,26 @@
+@import 'styles/colors.scss';
+
+.parking-status {
+  background-color: #bebfc1;
+  color: $white;
+}
+
+.parking-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  .spot__image {
+    max-width: 90px;
+    border: 2px solid transparent;
+
+    &.active {
+      border-color: $white;
+    }
+
+    &:hover {
+      border-color: $white;
+      cursor: pointer;
+    }
+  }
+}

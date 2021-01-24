@@ -1,0 +1,19 @@
+@import 'styles/colors.scss';
+
+.parking-status {
+  background-color: $white;
+}
+
+.parking-container {
+  display: flex;
+
+  .main-button {
+    margin: 0;
+    width: 100%;
+    max-width: initial;
+
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+}

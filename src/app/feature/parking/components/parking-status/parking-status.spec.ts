@@ -3,9 +3,9 @@ import { of } from 'rxjs';
 
 import { ParkingStatusComponent } from '@app/feature/parking/components/parking-status/parking-status.component';
 
-import { ParkingApiService } from '@app/shared/services/parking-api-service';
-import { ParkingService } from '@app/shared/services/parking.service';
-import { ParkingServiceMock } from '@app/shared/test-data/parking-service-mock';
+import { ParkingApiService } from '@app/feature/parking/services/parking-api-service';
+import { ParkingService } from '@app/feature/parking/services/parking.service';
+import { ParkingServiceMock } from '@app/feature/parking/test-data/parking-service-mock';
 
 describe('ParkingStatusComponent', () => {
   let component: ParkingStatusComponent;
