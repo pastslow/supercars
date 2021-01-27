@@ -1,8 +1,25 @@
 <div class="parking-status custom-card">
-  <div class="main-title">Parking Spots</div>
+  <div class="header-container">
+    <h3 class="main-title">Parking Spots</h3>
+    <img
+      *ngIf="!isEraseModeEnabled"
+      (click)="toogleEraseMode()"
+      class="icon-image"
+      src="assets/img/icons/eraser.svg"
+      alt=""
+    />
+
+    <img
+      *ngIf="isEraseModeEnabled"
+      (click)="toogleEraseMode()"
+      class="icon-image"
+      src="assets/img/icons/eraser-active.svg"
+      alt=""
+    />
+  </div>
 
   <div class="parking-container">
-    <ng-container *ngFor="let slotModel of slotModels; index as i">
+    <ng-container *ngFor="let slotModel of slotModels | slice: 1; index as i">
       <img
         [class.active]="i === selectedSpotModelIndex"
         class="spot__image"

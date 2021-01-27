@@ -14,6 +14,7 @@ export class ParkingEditSpotsComponent implements OnInit {
 
   public selectedSpotModelIndex: number;
   public slotModels: SlotModel[];
+  public isEraseModeEnabled: boolean;
   constructor() {}
 
   public ngOnInit(): void {
@@ -24,7 +25,15 @@ export class ParkingEditSpotsComponent implements OnInit {
     spotIndex: number,
     spotModel: SlotModel
   ): void {
+    this.isEraseModeEnabled = false;
     this.selectedSpotModelIndex = spotIndex;
     this.emitSelectedSpotModel.next(spotModel);
+  }
+
+  public toogleEraseMode(): void {
+    const eraserSlotIndex = 0;
+    this.isEraseModeEnabled = !this.isEraseModeEnabled;
+    this.selectedSpotModelIndex = null;
+    this.emitSelectedSpotModel.next(this.slotModels[eraserSlotIndex]);
   }
 }

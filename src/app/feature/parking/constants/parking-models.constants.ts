@@ -1,4 +1,5 @@
 import { Parking } from '@app/feature/parking/interfaces/parking.interface';
+import { SlotModel } from '@app/feature/parking/interfaces/slot-model.interface';
 
 export class ParkingModels {
   public static parkingModels: Parking[] = [
@@ -3817,54 +3818,60 @@ export class ParkingModels {
     },
   ];
 
-  public static slotsModels = [
+  public static slotsModels: SlotModel[] = [
+    {
+      title: 'Eraser',
+      className: '',
+      image: '',
+      borderClass: '',
+    },
     {
       title: 'Vertical cell',
-      classNames: ['vertical-line', 'vertical-cell'],
+      className: 'vertical-cell',
       image: 'slot-1',
       borderClass: 'border-bottom',
     },
     {
       title: 'Horizontal cell',
-      classNames: ['vertical-line', 'horizontal-cell'],
+      className: 'horizontal-cell',
       borderClass: 'border-bottom',
       image: 'slot-2',
     },
     {
       title: 'Mirror Vertical cell',
-      classNames: ['vertical-line', 'vertical-cell'],
+      className: 'vertical-cell',
       image: 'slot-3',
       borderClass: 'border-top',
     },
     {
       title: 'Mirror Horizontal cell',
-      classNames: ['vertical-line', 'horizontal-cell'],
+      className: 'horizontal-cell',
       image: 'slot-4',
       borderClass: 'border-top',
     },
     {
       title: 'Clockwise cell',
-      classNames: [],
+      className: 'clockwise-cell',
       image: 'slot-5',
-      borderClass: '',
+      borderClass: 'border-bottom',
     },
     {
       title: 'Counter-Clockwise cell',
-      classNames: [],
+      className: 'counterclockwise-cell',
       image: 'slot-6',
-      borderClass: '',
+      borderClass: 'border-bottom',
     },
     {
       title: 'Mirror Clockwise cell',
-      classNames: [],
-      image: 'slot-7',
-      borderClass: '',
+      className: 'clockwise-cell',
+      image: 'slot-8',
+      borderClass: 'border-top',
     },
     {
       title: 'Mirror Counter-Clockwise cell',
-      classNames: [],
-      image: 'slot-6',
-      borderClass: '',
+      className: 'counterclockwise-cell',
+      image: 'slot-7',
+      borderClass: 'border-top',
     },
   ];
 

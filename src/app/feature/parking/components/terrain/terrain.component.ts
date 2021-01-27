@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  SimpleChanges,
+  OnChanges,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 
@@ -10,13 +17,14 @@ import { ParkingDriver } from '@app/feature/parking/interfaces/parking-driver.in
 import { ParkingService } from '@app/feature/parking/services/parking.service';
 import { ParkingApiService } from '@app/feature/parking/services/parking-api-service';
 import { SlotModel } from '@app/feature/parking/interfaces/slot-model.interface';
+import { ViewMode } from '@app/feature/parking/enums/view-mode.enum';
 
 @Component({
   selector: 'app-terrain',
   templateUrl: './terrain.component.html',
   styleUrls: ['./terrain.component.scss'],
 })
-export class TerrainComponent implements OnInit, OnDestroy {
+export class TerrainComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public parking: Parking;
   @Input() public selectedParkingLevelIndex: number;
   @Input() public selectedParkingAreaIndex: number;
@@ -29,6 +37,7 @@ export class TerrainComponent implements OnInit, OnDestroy {
   public selectedSpot: Spot;
   public selectedParkingArea: ParkingArea;
   public parkingPlacements: Spot[];
+  public isEditModeEnabled: boolean;
 
   private unsubscribe$: Subject<void> = new Subject();
 
@@ -40,6 +49,12 @@ export class TerrainComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     if (this.parking) {
       this.updateSelectedParking();
+    }
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes && changes.parkingViewMode) {
+      this.isEditModeEnabled = this.parkingViewMode === ViewMode.edit;
     }
   }
 
@@ -82,6 +97,10 @@ export class TerrainComponent implements OnInit, OnDestroy {
   }
 
   public getSelectedSpot(coordinateY: number, coordinateX: number): void {
+    if (this.isEditModeEnabled) {
+      return;
+    }
+
     this.selectedSpot = this.parkingPlacements.find(
       (spot) => spot.x === coordinateX && spot.y === coordinateY
     );

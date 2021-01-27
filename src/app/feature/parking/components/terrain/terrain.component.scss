@@ -28,6 +28,10 @@
     position: relative;
   }
 
+  .edit-cell-enabled {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
   .vertical-line {
     .cell {
       padding: 36px 17px;

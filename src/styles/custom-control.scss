@@ -1,8 +1,8 @@
 $terrain-size: 36px;
 $border-size: 2px;
 
-$terrain: "/assets/img/bg/terrain.png";
-$car: "/assets/img/bg/car.png";
+$terrain: '/assets/img/bg/terrain.png';
+$car: '/assets/img/bg/car.png';
 
 .custom-card {
   border-radius: 5px;
@@ -19,6 +19,21 @@ $car: "/assets/img/bg/car.png";
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-around;
+
+  .icon-image {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
 }
 
 .main-text {

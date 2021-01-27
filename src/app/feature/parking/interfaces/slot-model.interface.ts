@@ -1,6 +1,6 @@
 export interface SlotModel {
   title: string;
   image: string;
-  classNames: string[];
+  className: string;
   borderClass: string;
 }

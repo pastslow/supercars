@@ -10,14 +10,16 @@
     <div
       id="y{{ i }}x{{ j }}"
       #cell
+      *ngFor="let col of terrainSizeCol; index as j"
       appUpdateLineSize
       appPreviewSlotPlacement
       [class.vertical-line]="getSelectedCell(i, j)"
-      *ngFor="let col of terrainSizeCol; index as j"
+      [class.edit-cell-enabled]="isEditModeEnabled"
       class="terrain-col"
       [selectedSlotModel]="selectedSlotModel"
       [parkingViewMode]="parkingViewMode"
       [parkingPlacements]="parkingPlacements"
+      [selectedParkingArea]="selectedParkingArea"
       [terrain]="terrain"
       [rowNumber]="i"
       [colNumber]="j"
@@ -27,7 +29,7 @@
         class="cell"
         (click)="getSelectedSpot(i, j)"
         data-toggle="modal"
-        data-target="#selectedSpot"
+        [attr.data-target]="isEditModeEnabled ? '' : '#selectedSpot'"
       >
         <div class="cell-indicator">
           <span>{{ getCellData(i, j, 'indicator') }}</span>
