@@ -21,6 +21,14 @@ export class ParkingFacadeService {
     private parkingService: ParkingService
   ) {}
 
+  public updateTemporaryAreaSpotsState(spots: Spot[]): void {
+    return this.parkingService.updateTemporaryAreaSpotsState(spots);
+  }
+
+  public getTemporaryAreaSpotsStateValue(): Spot[] {
+    return this.parkingService.getTemporaryAreaSpotsStateValue();
+  }
+
   public getParkingState$(): Observable<Parking> {
     return this.parkingService.getParkingState$();
   }
@@ -35,6 +43,10 @@ export class ParkingFacadeService {
 
   public getParkingAreaState$(): Observable<ParkingArea> {
     return this.parkingService.getParkingAreaState$();
+  }
+
+  public getParkingAreaStateValue(): ParkingArea {
+    return this.parkingService.getParkingAreaStateValue();
   }
 
   public updateParkingAreaState(parkingArea: ParkingArea): void {
@@ -117,6 +129,22 @@ export class ParkingFacadeService {
     });
   }
 
+  public saveAreaChanges() {
+    const selectedParkingArea = this.getParkingAreaStateValue();
+    const temporaryAreaSpots = this.parkingService.getTemporaryAreaSpotsStateValue();
+
+    const newParkingArea = Object.assign({}, selectedParkingArea);
+    newParkingArea.spots = temporaryAreaSpots;
+
+    return this.parkingApiService.addParkingSpots(newParkingArea).pipe(
+      map((spots: Spot[]) => {
+        selectedParkingArea.spots = [...spots];
+        this.updateParkingAreaState(selectedParkingArea);
+        return spots;
+      })
+    );
+  }
+
   public createParking(parking: Parking): Observable<any> {
     const userId = this.sessionService.getUserIdValue();
     parking['userId'] = userId;
@@ -124,9 +152,15 @@ export class ParkingFacadeService {
     return this.parkingApiService.createParking(parking);
   }
 
+  public getDriverFromSelectedSpot(
+    selectedSpotId: string
+  ): Observable<ParkingDriver> {
+    return this.parkingApiService.getDriverFromSelectedSpot(selectedSpotId);
+  }
+
   private addDriverToSelectedSpot(slotDriver): Observable<any> {
     let parking = this.getParkingStateValue();
-    let parkingAreaStatus = this.parkingService.getParkingAreaStateValue();
+    let parkingAreaStatus = this.getParkingAreaStateValue();
     parking = this.calculateParkingSpotsStatusAtCheckIn(parking);
     parkingAreaStatus = this.calculateParkingSpotsStatusAtCheckIn(
       parkingAreaStatus
@@ -143,7 +177,7 @@ export class ParkingFacadeService {
 
   private removeDriverFromSelectedSpot(selectedSpotId): Observable<any> {
     let parking = this.getParkingStateValue();
-    let parkingAreaStatus = this.parkingService.getParkingAreaStateValue();
+    let parkingAreaStatus = this.getParkingAreaStateValue();
     parking = this.calculateParkingSpotsStatusAtCheckOut(parking);
     parkingAreaStatus = this.calculateParkingSpotsStatusAtCheckOut(
       parkingAreaStatus

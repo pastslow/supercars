@@ -1,5 +1,5 @@
 export interface Spot {
-  id: number;
+  id: string;
   y: number;
   x: number;
   orientation: string;

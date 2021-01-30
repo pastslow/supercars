@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
-import { Coordinate } from '@app/feature/parking/interfaces/coordinate.interface';
-import { Spot } from '@app/feature/parking/interfaces/spot.interface';
 import { Parking } from '@app/feature/parking/interfaces/parking.interface';
 import { ParkingArea } from '@app/feature/parking/interfaces/parking-area.interface';
+import { Spot } from '@app/feature/parking/interfaces/spot.interface';
 
 @Injectable()
 export class ParkingService {
+  public temporaryAreaSpotsState$: BehaviorSubject<
+    Spot[]
+  > = new BehaviorSubject([]);
   public parkingState$: BehaviorSubject<Parking> = new BehaviorSubject(null);
   public parkingAreaState$: BehaviorSubject<ParkingArea> = new BehaviorSubject(
     null
@@ -17,6 +19,14 @@ export class ParkingService {
   );
 
   constructor() {}
+
+  public getTemporaryAreaSpotsStateValue(): Spot[] {
+    return this.temporaryAreaSpotsState$.value;
+  }
+
+  public updateTemporaryAreaSpotsState(spots: Spot[]): void {
+    this.temporaryAreaSpotsState$.next(spots);
+  }
 
   public getParkingStateValue(): Parking {
     return this.parkingState$.value;
@@ -56,15 +66,5 @@ export class ParkingService {
 
   public updateSelectedParkingLevelIndex(levelIndex: number): void {
     this.selectedParkingLevelIndex$.next(levelIndex);
-  }
-
-  public getSelectedCell(
-    coordinate: Coordinate,
-    parkingPlacements: Spot[]
-  ): Spot {
-    const selectedCell = parkingPlacements.find(
-      (spot) => spot.x === coordinate.x && spot.y === coordinate.y
-    );
-    return selectedCell;
   }
 }

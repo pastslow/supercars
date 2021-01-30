@@ -7,17 +7,16 @@ import {
   OnChanges,
 } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { Spot } from '@app/feature/parking/interfaces/spot.interface';
 import { Parking } from '@app/feature/parking/interfaces/parking.interface';
 import { ParkingArea } from '@app/feature/parking/interfaces/parking-area.interface';
 import { ParkingDriver } from '@app/feature/parking/interfaces/parking-driver.interface';
 
-import { ParkingService } from '@app/feature/parking/services/parking.service';
-import { ParkingApiService } from '@app/feature/parking/services/parking-api-service';
 import { SlotModel } from '@app/feature/parking/interfaces/slot-model.interface';
 import { ViewMode } from '@app/feature/parking/enums/view-mode.enum';
+import { ParkingFacadeService } from '@app/feature/parking/services/parking-facade-service.service';
 
 @Component({
   selector: 'app-terrain',
@@ -41,10 +40,7 @@ export class TerrainComponent implements OnInit, OnDestroy, OnChanges {
 
   private unsubscribe$: Subject<void> = new Subject();
 
-  constructor(
-    private parkingService: ParkingService,
-    private parkingApiService: ParkingApiService
-  ) {}
+  constructor(private parkingFacadeService: ParkingFacadeService) {}
 
   public ngOnInit(): void {
     if (this.parking) {
@@ -69,10 +65,10 @@ export class TerrainComponent implements OnInit, OnDestroy, OnChanges {
       y: coordinateY,
     };
 
-    return this.parkingService.getSelectedCell(
-      coordinate,
-      this.parkingPlacements
+    const selectedCell = this.parkingPlacements.find(
+      (spot) => spot.x === coordinate.x && spot.y === coordinate.y
     );
+    return selectedCell;
   }
 
   public isBlockCell(coordinateY: number, coordinateX: number): boolean {
@@ -105,11 +101,11 @@ export class TerrainComponent implements OnInit, OnDestroy, OnChanges {
       (spot) => spot.x === coordinateX && spot.y === coordinateY
     );
 
-    this.parkingApiService
+    this.parkingFacadeService
       .getDriverFromSelectedSpot(this.selectedSpot.id)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((response: any) => {
-        this.driver = response.drivers[0];
+      .subscribe((driver: ParkingDriver) => {
+        this.driver = driver;
       });
   }
 

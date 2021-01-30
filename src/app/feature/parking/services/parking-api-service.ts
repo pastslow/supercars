@@ -2,11 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { ParkingDriver } from '@app/feature/parking/interfaces/parking-driver.interface';
+import { ParkingArea } from '@app/feature/parking/interfaces/parking-area.interface';
 
 @Injectable()
 export class ParkingApiService {
   constructor(private http: HttpClient) {}
+
+  public addParkingSpots(parkingArea: ParkingArea): Observable<any> {
+    return this.http.post(
+      'http://localhost:3000/api/parking/edit/area',
+      parkingArea
+    );
+  }
 
   public createParking(parking): Observable<any> {
     return this.http.post('http://localhost:3000/api/create/parking', parking);
@@ -16,7 +23,7 @@ export class ParkingApiService {
     return this.http.post(`http://localhost:3000/api/driver/delete`, driver);
   }
 
-  public getDriverFromSelectedSpot(spotId: number): Observable<any> {
+  public getDriverFromSelectedSpot(spotId: string): Observable<any> {
     return this.http.get(`http://localhost:3000/api/parking/driver/${spotId}`);
   }
 
@@ -53,7 +60,7 @@ export class ParkingApiService {
     );
   }
 
-  public changeSlotStatus(slotId: number, active: number): Observable<any> {
+  public changeSlotStatus(slotId: string, active: number): Observable<any> {
     return this.http.post('http://localhost:3000/api/parking/spot', {
       slotId,
       active,

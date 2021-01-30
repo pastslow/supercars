@@ -41,6 +41,7 @@
         <app-parking-edit-spots
           *ngIf="parkingViewMode === viewModes.edit"
           (emitSelectedSpotModel)="changeSelectedSpotModel($event)"
+          (emitSaveChanges)="saveAreaChanges()"
         ></app-parking-edit-spots>
       </div>
 

@@ -1,7 +1,11 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+
 import { ViewMode } from '@app/feature/parking/enums/view-mode.enum';
-import { ParkingArea } from '@app/feature/parking/interfaces/parking-area.interface';
 import { SlotModel } from '@app/feature/parking/interfaces/slot-model.interface';
+import { Spot } from '@app/feature/parking/interfaces/spot.interface';
+import { ParkingArea } from '@app/feature/parking/interfaces/parking-area.interface';
+
+import { ParkingFacadeService } from '@app/feature/parking/services/parking-facade-service.service';
 
 @Directive({
   selector: '[appPreviewSlotPlacement]',
@@ -13,10 +17,13 @@ export class PreviewSlotPlacementDirective {
   @Input() private selectedSlotModel: SlotModel;
   @Input() private selectedParkingArea: ParkingArea;
 
-  constructor(private el: ElementRef) {}
+  constructor(
+    private el: ElementRef,
+    private parkingFacadeService: ParkingFacadeService
+  ) {}
 
   @HostListener('mouseover')
-  onMouseOver() {
+  onMouseOver(): void {
     if (!this.isEditingSpotAvailable()) {
       return;
     }
@@ -35,7 +42,7 @@ export class PreviewSlotPlacementDirective {
     );
   }
 
-  @HostListener('click') onMouseClick() {
+  @HostListener('click') onMouseClick(): void {
     if (!this.isEditingSpotAvailable()) {
       return;
     }
@@ -45,10 +52,13 @@ export class PreviewSlotPlacementDirective {
       return;
     }
 
-    const selectedSpotIndicatorNumber =
-      this.selectedParkingArea.spots.length === 0
-        ? 1
-        : this.selectedParkingArea.spots.length + 1;
+    let selectedSpotIndicatorNumber = 0;
+
+    if (this.selectedParkingArea.spots.length === 0) {
+      selectedSpotIndicatorNumber = 1;
+    } else {
+      selectedSpotIndicatorNumber = this.getIndicatorNumber();
+    }
 
     const newSpot = {
       active: 0,
@@ -63,12 +73,17 @@ export class PreviewSlotPlacementDirective {
     };
 
     this.el.nativeElement.classList.add('placed');
-
     this.selectedParkingArea.spots.push(newSpot);
+    const temporaryPlacedSpots = this.parkingFacadeService.getTemporaryAreaSpotsStateValue();
+    temporaryPlacedSpots.push(newSpot);
+
+    this.parkingFacadeService.updateTemporaryAreaSpotsState(
+      temporaryPlacedSpots
+    );
   }
 
   @HostListener('mouseout')
-  onMouseOut() {
+  onMouseOut(): void {
     if (!this.isEditingSpotAvailable()) {
       return;
     }
@@ -129,35 +144,46 @@ export class PreviewSlotPlacementDirective {
   }
 
   private removeTerrainCssClasses(): void {
-    const defaultTerrainColumnClasses = ['terrain-col', 'edit-cell-enabled'];
-
-    this.el.nativeElement.classList.forEach((className) => {
-      const isDefaultClass = defaultTerrainColumnClasses.find(
-        (cssClassName) => cssClassName === className
-      );
-
-      if (isDefaultClass) {
-        return;
-      }
-
-      this.el.nativeElement.classList.remove(className);
-    });
+    this.el.nativeElement.setAttribute(
+      'class',
+      'terrain-col edit-cell-enabled'
+    );
   }
 
   private removeSpotCssClasses(): void {
-    const defaultCellClasses = ['cell'];
     const cellIndex = 0;
 
-    this.el.nativeElement.children[cellIndex].classList.forEach((className) => {
-      const isDefaultClass = defaultCellClasses.find(
-        (cssClassName) => cssClassName === className
-      );
+    this.el.nativeElement.children[cellIndex].setAttribute('class', 'cell');
+  }
 
-      if (isDefaultClass) {
-        return;
-      }
+  private getIndicatorNumber(): number {
+    const nextIndicatorNumber = this.selectedParkingArea.spots.length + 1;
 
-      this.el.nativeElement.children[cellIndex].classList.remove(className);
+    const placedIndicators = [];
+
+    this.selectedParkingArea.spots.forEach((spot: Spot) => {
+      placedIndicators.push(spot.indicator);
     });
+
+    const [min, max] = [
+      Math.min(...placedIndicators),
+      Math.max(...placedIndicators),
+    ];
+
+    if (min || max) {
+      const firestDeletedIndicatorIndex = 0;
+      const deletedIndicators = Array.from(
+        Array(max - min),
+        (v, i) => i + min
+      ).filter((i) => !placedIndicators.includes(i));
+
+      if (deletedIndicators.length === 0) {
+        return nextIndicatorNumber;
+      } else {
+        return deletedIndicators[firestDeletedIndicatorIndex];
+      }
+    } else {
+      return nextIndicatorNumber;
+    }
   }
 }

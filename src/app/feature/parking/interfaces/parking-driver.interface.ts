@@ -3,7 +3,7 @@ export interface ParkingDriver {
   carPlate: string;
   phoneNumber: string;
   date: string;
-  parkingSpotId: number;
+  parkingSpotId: string;
   check_in?: string;
   parkingId?: string;
 }

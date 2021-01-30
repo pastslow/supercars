@@ -35,7 +35,7 @@ export class ParkingServiceMock {
               parkingId: '',
               spots: [
                 {
-                  id: 0,
+                  id: '',
                   y: 1,
                   x: 1,
                   orientation: 'clockwise-cell',
@@ -79,7 +79,7 @@ export class ParkingServiceMock {
       {
         x: 0,
         y: 0,
-        id: 0,
+        id: '0',
         orientation: 'clockwise-cell',
         border: 'left',
         active: 1,
@@ -90,7 +90,7 @@ export class ParkingServiceMock {
       {
         x: 1,
         y: 1,
-        id: 1,
+        id: '1',
         orientation: 'clockwise-cell',
         border: 'left',
         active: 1,
@@ -101,7 +101,7 @@ export class ParkingServiceMock {
       {
         x: 2,
         y: 2,
-        id: 2,
+        id: '2',
         orientation: 'clockwise-cell',
         border: 'left',
         active: 1,
@@ -125,7 +125,7 @@ export class ParkingServiceMock {
     return formGroup;
   }
 
-  public static getDriver(spotId: number): ParkingDriver {
+  public static getDriver(spotId: string): ParkingDriver {
     const driver = {
       name: 'test',
       carPlate: 'IS 22 TST',
@@ -139,7 +139,7 @@ export class ParkingServiceMock {
 
   public static getSpotWithCustomOrientation(spotOrientation: string): Spot {
     const spot = {
-      id: 0,
+      id: '',
       y: 1,
       x: 1,
       orientation: spotOrientation,

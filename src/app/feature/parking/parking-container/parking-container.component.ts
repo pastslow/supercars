@@ -86,7 +86,7 @@ export class ParkingContainerComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  public changeParkingViewMode(parkingViewMode: number) {
+  public changeParkingViewMode(parkingViewMode: number): void {
     this.parkingViewMode = parkingViewMode;
   }
 
@@ -112,8 +112,15 @@ export class ParkingContainerComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  public changeSelectedSpotModel(slotModel: SlotModel) {
+  public changeSelectedSpotModel(slotModel: SlotModel): void {
     this.selectedSlotModel = slotModel;
+  }
+
+  public saveAreaChanges() {
+    this.parkingFacadeService
+      .saveAreaChanges()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe();
   }
 
   private listenToModelChanges(): void {

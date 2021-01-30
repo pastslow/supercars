@@ -11,6 +11,7 @@ import { SlotModel } from '@app/feature/parking/interfaces/slot-model.interface'
 export class ParkingEditSpotsComponent implements OnInit {
   @Output()
   public emitSelectedSpotModel: EventEmitter<SlotModel> = new EventEmitter();
+  @Output() emitSaveChanges: EventEmitter<boolean> = new EventEmitter();
 
   public selectedSpotModelIndex: number;
   public slotModels: SlotModel[];
@@ -35,5 +36,9 @@ export class ParkingEditSpotsComponent implements OnInit {
     this.isEraseModeEnabled = !this.isEraseModeEnabled;
     this.selectedSpotModelIndex = null;
     this.emitSelectedSpotModel.next(this.slotModels[eraserSlotIndex]);
+  }
+
+  public saveChanges(): void {
+    this.emitSaveChanges.next(true);
   }
 }
