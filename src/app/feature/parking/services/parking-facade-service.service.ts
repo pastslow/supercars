@@ -129,7 +129,7 @@ export class ParkingFacadeService {
     });
   }
 
-  public saveAreaChanges() {
+  public saveAreaChanges(): Observable<Spot[]> {
     const selectedParkingArea = this.getParkingAreaStateValue();
     const temporaryAreaSpots = this.parkingService.getTemporaryAreaSpotsStateValue();
 
@@ -138,8 +138,17 @@ export class ParkingFacadeService {
 
     return this.parkingApiService.addParkingSpots(newParkingArea).pipe(
       map((spots: Spot[]) => {
-        selectedParkingArea.spots = [...spots];
+        selectedParkingArea.spots = selectedParkingArea.spots.filter(
+          (spot) => spot.id !== null
+        );
+        selectedParkingArea.freeSpots =
+          selectedParkingArea.freeSpots + spots.length;
+        selectedParkingArea.totalSpots =
+          selectedParkingArea.totalSpots + spots.length;
+
+        selectedParkingArea.spots = [...selectedParkingArea.spots, ...spots];
         this.updateParkingAreaState(selectedParkingArea);
+        this.updateTemporaryAreaSpotsState([]);
         return spots;
       })
     );

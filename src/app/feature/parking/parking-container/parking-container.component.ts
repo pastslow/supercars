@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { finalize, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, finalize, take, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { Parking } from '@app/feature/parking/interfaces/parking.interface';
@@ -48,7 +48,7 @@ export class ParkingContainerComponent implements OnInit, OnDestroy {
 
   public backToParkings(): void {
     this.displayParkingZone = false;
-
+    this.parkingFacadeService.updateTemporaryAreaSpotsState([]);
     this.getAllUserParkings();
   }
 
@@ -116,15 +116,28 @@ export class ParkingContainerComponent implements OnInit, OnDestroy {
     this.selectedSlotModel = slotModel;
   }
 
-  public saveAreaChanges() {
+  public saveAreaChanges(): void {
+    this.spinnerService.makeSpinnerVisible();
     this.parkingFacadeService
       .saveAreaChanges()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe();
+      .subscribe(() => {
+        this.spinnerService.hideSpinner();
+      });
   }
 
   private listenToModelChanges(): void {
     this.getAllUserParkings();
+
+    this.parkingFacadeService
+      .getParkingAreaState$()
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter((area) => area !== null)
+      )
+      .subscribe((parkingArea: ParkingArea) => {
+        this.selectedParkingArea = Object.assign({}, parkingArea);
+      });
 
     this.parkingFacadeService
       .getParkingState$()

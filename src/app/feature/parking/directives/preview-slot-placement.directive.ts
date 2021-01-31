@@ -134,13 +134,35 @@ export class PreviewSlotPlacementDirective {
       return;
     }
 
-    const indexOfSelectedSpot = this.selectedParkingArea.spots.indexOf(
-      selectedSpot
+    let temporaryPlacedSpots = this.parkingFacadeService.getTemporaryAreaSpotsStateValue();
+    this.selectedParkingArea.spots = this.removeSelectedSpotFromSpots(
+      this.selectedParkingArea.spots
+    );
+    temporaryPlacedSpots = this.removeSelectedSpotFromSpots(
+      temporaryPlacedSpots
     );
 
-    this.selectedParkingArea.spots.splice(indexOfSelectedSpot, 1);
+    this.parkingFacadeService.updateTemporaryAreaSpotsState(
+      temporaryPlacedSpots
+    );
     this.removeTerrainCssClasses();
     this.removeSpotCssClasses();
+  }
+
+  private removeSelectedSpotFromSpots(spots: Spot[]): Spot[] {
+    const selectedSpot = spots.find(
+      (spot) => spot.x === this.colNumber && spot.y === this.rowNumber
+    );
+
+    if (!selectedSpot) {
+      return spots;
+    }
+
+    const indexOfSelectedSpot = spots.indexOf(selectedSpot);
+
+    spots.splice(indexOfSelectedSpot, 1);
+
+    return spots;
   }
 
   private removeTerrainCssClasses(): void {

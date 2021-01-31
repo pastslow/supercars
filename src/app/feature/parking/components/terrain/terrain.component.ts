@@ -25,8 +25,7 @@ import { ParkingFacadeService } from '@app/feature/parking/services/parking-faca
 })
 export class TerrainComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public parking: Parking;
-  @Input() public selectedParkingLevelIndex: number;
-  @Input() public selectedParkingAreaIndex: number;
+  @Input() public selectedParkingArea: ParkingArea;
   @Input() public parkingViewMode: number;
   @Input() public selectedSlotModel: SlotModel;
 
@@ -34,7 +33,6 @@ export class TerrainComponent implements OnInit, OnDestroy, OnChanges {
   public terrainSizeCol: Array<number>;
   public driver: ParkingDriver;
   public selectedSpot: Spot;
-  public selectedParkingArea: ParkingArea;
   public parkingPlacements: Spot[];
   public isEditModeEnabled: boolean;
 
@@ -51,6 +49,10 @@ export class TerrainComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes.parkingViewMode) {
       this.isEditModeEnabled = this.parkingViewMode === ViewMode.edit;
+    }
+
+    if (changes && changes.selectedParkingArea) {
+      this.updateSelectedParking();
     }
   }
 
@@ -110,9 +112,6 @@ export class TerrainComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public updateSelectedParking(): void {
-    const parkingFloor = this.parking.levels[this.selectedParkingLevelIndex];
-    this.selectedParkingArea =
-      parkingFloor.areas[this.selectedParkingAreaIndex];
     this.terrainSizeRow = new Array(this.selectedParkingArea.sizeY);
     this.terrainSizeCol = new Array(this.selectedParkingArea.sizeX);
     this.parkingPlacements = this.selectedParkingArea.spots;
