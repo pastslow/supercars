@@ -7,18 +7,29 @@ import { Spot } from '@app/feature/parking/interfaces/spot.interface';
 
 @Injectable()
 export class ParkingService {
-  public temporaryAreaSpotsState$: BehaviorSubject<
+  private temporaryDeletedSpotsIds$: BehaviorSubject<
+    string[]
+  > = new BehaviorSubject([]);
+  private temporaryAreaSpotsState$: BehaviorSubject<
     Spot[]
   > = new BehaviorSubject([]);
-  public parkingState$: BehaviorSubject<Parking> = new BehaviorSubject(null);
-  public parkingAreaState$: BehaviorSubject<ParkingArea> = new BehaviorSubject(
+  private parkingState$: BehaviorSubject<Parking> = new BehaviorSubject(null);
+  private parkingAreaState$: BehaviorSubject<ParkingArea> = new BehaviorSubject(
     null
   );
-  public selectedParkingLevelIndex$: BehaviorSubject<number> = new BehaviorSubject(
+  private selectedParkingLevelIndex$: BehaviorSubject<number> = new BehaviorSubject(
     0
   );
 
   constructor() {}
+
+  public getTemporaryAreaDeletedSpotsIdsValue(): string[] {
+    return this.temporaryDeletedSpotsIds$.value;
+  }
+
+  public updateTemporaryAreaDeletedSpots(deletedSpots: string[]): void {
+    this.temporaryDeletedSpotsIds$.next(deletedSpots);
+  }
 
   public getTemporaryAreaSpotsStateValue(): Spot[] {
     return this.temporaryAreaSpotsState$.value;

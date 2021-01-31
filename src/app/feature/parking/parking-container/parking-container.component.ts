@@ -120,7 +120,12 @@ export class ParkingContainerComponent implements OnInit, OnDestroy {
     this.spinnerService.makeSpinnerVisible();
     this.parkingFacadeService
       .saveAreaChanges()
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        finalize(() => {
+          this.spinnerService.hideSpinner();
+        })
+      )
       .subscribe(() => {
         this.spinnerService.hideSpinner();
       });

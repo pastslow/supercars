@@ -21,6 +21,14 @@ export class ParkingFacadeService {
     private parkingService: ParkingService
   ) {}
 
+  public getTemporaryAreaDeletedSpotsIdsValue(): string[] {
+    return this.parkingService.getTemporaryAreaDeletedSpotsIdsValue();
+  }
+
+  public updateTemporaryAreaDeletedSpots(deletedSpotsIds: string[]): void {
+    return this.parkingService.updateTemporaryAreaDeletedSpots(deletedSpotsIds);
+  }
+
   public updateTemporaryAreaSpotsState(spots: Spot[]): void {
     return this.parkingService.updateTemporaryAreaSpotsState(spots);
   }
@@ -135,21 +143,27 @@ export class ParkingFacadeService {
 
     const newParkingArea = Object.assign({}, selectedParkingArea);
     newParkingArea.spots = temporaryAreaSpots;
+    newParkingArea[
+      'deletedSpots'
+    ] = this.parkingService.getTemporaryAreaDeletedSpotsIdsValue();
 
     return this.parkingApiService.addParkingSpots(newParkingArea).pipe(
-      map((spots: Spot[]) => {
+      map((parkingAreaStatus) => {
         selectedParkingArea.spots = selectedParkingArea.spots.filter(
           (spot) => spot.id !== null
         );
-        selectedParkingArea.freeSpots =
-          selectedParkingArea.freeSpots + spots.length;
-        selectedParkingArea.totalSpots =
-          selectedParkingArea.totalSpots + spots.length;
 
-        selectedParkingArea.spots = [...selectedParkingArea.spots, ...spots];
+        selectedParkingArea.freeSpots = parkingAreaStatus.freeSpots;
+        selectedParkingArea.totalSpots = parkingAreaStatus.totalSpots;
+        selectedParkingArea.spots = [
+          ...selectedParkingArea.spots,
+          ...parkingAreaStatus.areaSpots,
+        ];
         this.updateParkingAreaState(selectedParkingArea);
         this.updateTemporaryAreaSpotsState([]);
-        return spots;
+        this.updateTemporaryAreaDeletedSpots([]);
+
+        return parkingAreaStatus;
       })
     );
   }

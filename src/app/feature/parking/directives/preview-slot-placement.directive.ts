@@ -134,6 +134,14 @@ export class PreviewSlotPlacementDirective {
       return;
     }
 
+    if (selectedSpot.id) {
+      const temporaryDeletedSpots = this.parkingFacadeService.getTemporaryAreaDeletedSpotsIdsValue();
+      temporaryDeletedSpots.push(selectedSpot.id);
+      this.parkingFacadeService.updateTemporaryAreaDeletedSpots(
+        temporaryDeletedSpots
+      );
+    }
+
     let temporaryPlacedSpots = this.parkingFacadeService.getTemporaryAreaSpotsStateValue();
     this.selectedParkingArea.spots = this.removeSelectedSpotFromSpots(
       this.selectedParkingArea.spots
