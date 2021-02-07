@@ -10,6 +10,7 @@ import { ParkingDriver } from '@app/feature/parking/interfaces/parking-driver.in
 
 import { ParkingFacadeService } from '@app/feature/parking/services/parking-facade-service.service';
 import { ParkingSlotStatus } from '@app/feature/parking/enums/parking-slot-status.enum';
+import { ParkingArea } from '@app/feature/parking/interfaces/parking-area.interface';
 
 @Injectable()
 export class ParkingSelectedSpotService {
@@ -19,7 +20,7 @@ export class ParkingSelectedSpotService {
     selectedSpot: Spot,
     isSlotActive: number,
     formGroupName: FormGroup
-  ): Observable<boolean> {
+  ): Observable<ParkingArea> {
     let driver: ParkingDriver;
 
     if (isSlotActive === ParkingSlotStatus.active) {

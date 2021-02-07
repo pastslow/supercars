@@ -61,15 +61,6 @@ export class ParkingFacadeService {
     this.parkingService.updateParkingAreaState(parkingArea);
   }
 
-  public mapToParkingStatus(parkingStatus) {
-    return {
-      id: parkingStatus.id,
-      totalSpots: parkingStatus.totalSpots,
-      usedSpots: parkingStatus.usedSpots,
-      freeSpots: parkingStatus.freeSpots,
-    };
-  }
-
   public getAllUserParkings(): Observable<Parking[]> {
     return this.sessionService.getUserId$().pipe(
       mergeMap((userId: number) => {
@@ -107,26 +98,27 @@ export class ParkingFacadeService {
     selectedSpot: Spot,
     isSlotActive: number,
     driver: ParkingDriver
-  ): Observable<boolean> {
+  ): Observable<ParkingArea> {
     return this.parkingApiService
       .changeSlotStatus(selectedSpot.id, isSlotActive)
       .pipe(
         mergeMap(() => {
           if (isSlotActive === ParkingSlotStatus.active) {
             return this.addDriverToSelectedSpot(driver);
-          }
-
-          return of(true);
-        }),
-        mergeMap(() => {
-          if (isSlotActive === ParkingSlotStatus.inactive) {
+          } else {
             return this.removeDriverFromSelectedSpot(selectedSpot.id);
           }
-
-          return of(true);
         }),
-        tap(() => {
+        tap((parkingAreaStatus: ParkingArea) => {
           selectedSpot.active = isSlotActive;
+
+          if (parkingAreaStatus) {
+            const parkingArea = this.parkingService.getParkingAreaStateValue();
+            parkingArea.freeSpots = parkingAreaStatus.freeSpots;
+            parkingArea.usedSpots = parkingAreaStatus.usedSpots;
+
+            this.parkingService.updateParkingAreaState(parkingArea);
+          }
         })
       );
   }
@@ -182,55 +174,20 @@ export class ParkingFacadeService {
   }
 
   private addDriverToSelectedSpot(slotDriver): Observable<any> {
-    let parking = this.getParkingStateValue();
-    let parkingAreaStatus = this.getParkingAreaStateValue();
-    parking = this.calculateParkingSpotsStatusAtCheckIn(parking);
-    parkingAreaStatus = this.calculateParkingSpotsStatusAtCheckIn(
-      parkingAreaStatus
-    );
+    const parkingArea = this.getParkingAreaStateValue();
 
-    const slotInfo = {
+    return this.parkingApiService.addDriverToSelectedSpot({
       driver: slotDriver,
-      parkingStatus: this.mapToParkingStatus(parking),
-      parkingAreaStatus: this.mapToParkingStatus(parkingAreaStatus),
-    };
-
-    return this.parkingApiService.addDriverToSelectedSpot(slotInfo);
+      parkingAreaId: parkingArea.id,
+    });
   }
 
   private removeDriverFromSelectedSpot(selectedSpotId): Observable<any> {
-    let parking = this.getParkingStateValue();
-    let parkingAreaStatus = this.getParkingAreaStateValue();
-    parking = this.calculateParkingSpotsStatusAtCheckOut(parking);
-    parkingAreaStatus = this.calculateParkingSpotsStatusAtCheckOut(
-      parkingAreaStatus
-    );
+    const parkingArea = this.getParkingAreaStateValue();
 
-    const slotInfo = {
+    return this.parkingApiService.deleteDriver({
       spotId: selectedSpotId,
-      parkingStatus: this.mapToParkingStatus(parking),
-      parkingAreaStatus: this.mapToParkingStatus(parkingAreaStatus),
-    };
-
-    return this.parkingApiService.deleteDriver(slotInfo);
-  }
-
-  private calculateParkingSpotsStatusAtCheckIn(parkingStatus): any {
-    if (parkingStatus.freeSpots - 1 < 0) {
-      parkingStatus.freeSpots = 0;
-    } else {
-      parkingStatus.freeSpots--;
-    }
-
-    parkingStatus.usedSpots++;
-
-    return parkingStatus;
-  }
-
-  private calculateParkingSpotsStatusAtCheckOut(parkingStatus): any {
-    parkingStatus.freeSpots++;
-    parkingStatus.usedSpots--;
-
-    return parkingStatus;
+      parkingAreaId: parkingArea.id,
+    });
   }
 }
