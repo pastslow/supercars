@@ -58,7 +58,7 @@ describe('ParkingSelectedSpotService', () => {
         phoneNumber: '021 222 333',
         date: '',
         parkingSpotId: 0,
-        check_in: moment(),
+        checkIn: moment(),
       };
 
       const driverTimeSpend = service.getDriverTimeSpend(driver);

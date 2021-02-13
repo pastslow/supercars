@@ -53,7 +53,7 @@ export class ParkingSelectedSpotService {
       return '';
     }
 
-    const startDay = moment(driver.check_in);
+    const startDay = moment(driver.checkIn);
     const currentDay = moment();
 
     const duration = moment.duration(moment(currentDay).diff(startDay));

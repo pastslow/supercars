@@ -4,6 +4,6 @@ export interface ParkingDriver {
   phoneNumber: string;
   date: string;
   parkingSpotId: string;
-  check_in?: string;
+  checkIn?: string;
   parkingId?: string;
 }

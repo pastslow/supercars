@@ -100,7 +100,7 @@ export class ParkingFacadeService {
     driver: ParkingDriver
   ): Observable<ParkingArea> {
     return this.parkingApiService
-      .changeSlotStatus(selectedSpot.id, isSlotActive)
+      .changeSlotStatus(selectedSpot.id, isSlotActive, selectedSpot.parkingId)
       .pipe(
         mergeMap(() => {
           if (isSlotActive === ParkingSlotStatus.active) {
@@ -168,9 +168,9 @@ export class ParkingFacadeService {
   }
 
   public getDriverFromSelectedSpot(
-    selectedSpotId: string
+    selectedSpot: Spot
   ): Observable<ParkingDriver> {
-    return this.parkingApiService.getDriverFromSelectedSpot(selectedSpotId);
+    return this.parkingApiService.getDriverFromSelectedSpot(selectedSpot);
   }
 
   private addDriverToSelectedSpot(slotDriver): Observable<any> {
@@ -188,6 +188,7 @@ export class ParkingFacadeService {
     return this.parkingApiService.deleteDriver({
       spotId: selectedSpotId,
       parkingAreaId: parkingArea.id,
+      parkingId: parkingArea.parkingId,
     });
   }
 }

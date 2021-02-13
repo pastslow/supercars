@@ -104,7 +104,7 @@ export class TerrainComponent implements OnInit, OnDestroy, OnChanges {
     );
 
     this.parkingFacadeService
-      .getDriverFromSelectedSpot(this.selectedSpot.id)
+      .getDriverFromSelectedSpot(this.selectedSpot)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((driver: ParkingDriver) => {
         this.driver = driver;
