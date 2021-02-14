@@ -1,3 +1,5 @@
+@import 'styles/colors.scss';
+
 $terrain-size: 36px;
 $border-size: 2px;
 
@@ -114,4 +116,142 @@ $car: '/assets/img/bg/car.png';
     background-color: $light-blue;
     border-color: $light-blue;
   }
+}
+
+.vertical-cell {
+  .cell {
+    padding: 36px 17px;
+  }
+
+  .border-bottom {
+    .cell-indicator {
+      bottom: 64px;
+    }
+
+    .active-cell {
+      top: 8px;
+      left: 5px;
+      transform: rotate(180deg);
+    }
+  }
+
+  .border-top {
+    .cell-indicator {
+      top: 64px;
+    }
+
+    .active-cell {
+      left: 3px;
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.horizontal-cell {
+  transform: rotate(90deg);
+
+  .cell {
+    padding: 36px 17px;
+
+    .cell-indicator {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .border-bottom {
+    .cell-indicator {
+      bottom: 64px;
+    }
+
+    .active-cell {
+      top: 8px;
+      left: 5px;
+      transform: rotate(180deg);
+    }
+  }
+
+  .border-top {
+    .cell-indicator {
+      top: 64px;
+    }
+
+    .active-cell {
+      left: 3px;
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.clockwise-cell {
+  transform: rotate(27deg);
+
+  .cell {
+    padding: 40px 15px;
+
+    .active-cell {
+      transform: rotate(180deg);
+      left: 3px;
+    }
+
+    .cell-indicator {
+      transform: rotate(-27deg);
+    }
+  }
+
+  .border-bottom {
+    .active-cell {
+      top: 16px;
+    }
+
+    .cell-indicator {
+      top: -10px;
+    }
+  }
+
+  .border-top {
+    .cell-indicator {
+      bottom: -10px;
+    }
+  }
+}
+
+.counterclockwise-cell {
+  transform: rotate(-27deg);
+
+  .cell {
+    padding: 40px 15px;
+
+    .active-cell {
+      transform: rotate(0);
+      left: 1px;
+    }
+
+    .cell-indicator {
+      transform: rotate(27deg);
+    }
+  }
+
+  .border-bottom {
+    .active-cell {
+      top: 16px;
+    }
+
+    .cell-indicator {
+      top: -10px;
+    }
+  }
+
+  .border-top {
+    .cell-indicator {
+      bottom: -10px;
+    }
+  }
+}
+
+.border-top {
+  border-top: 2px solid $white !important;
+}
+
+.border-bottom {
+  border-bottom: 2px solid $white !important;
 }

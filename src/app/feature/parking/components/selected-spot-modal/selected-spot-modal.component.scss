@@ -84,6 +84,10 @@
     align-items: center;
     justify-content: center;
     margin: auto;
+    background-image: url(/assets/img/bg/terrain.png);
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 15px;
 
     .vertical-line {
       width: $terrain-size;
@@ -93,8 +97,8 @@
 
       .cell {
         padding: 40px 18px;
-        border-left: $border-size solid $black;
-        border-right: $border-size solid $black;
+        border-left: $border-size solid $white;
+        border-right: $border-size solid $white;
         position: relative;
         cursor: pointer;
 

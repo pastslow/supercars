@@ -13,8 +13,8 @@
           <div *ngIf="!selectedSpot?.active" class="text-center">EMPTY</div>
 
           <div class="terrain">
-            <div class="vertical-line">
-              <div class="cell">
+            <div class="vertical-line" [class]="selectedSpot?.orientation">
+              <div class="cell" [class]="selectedSpot?.border">
                 <div [class.active-cell]="selectedSpot?.active"></div>
               </div>
             </div>
